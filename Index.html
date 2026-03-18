@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viral Anime Hub | Home</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff0055">
+    <style>
+        :root { --main: #ff0055; --bg: #0b0e14; --card: #1c2129; --text: #fff; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; }
+        header { padding: 15px 5%; background: #000; border-bottom: 2px solid var(--main); display: flex; justify-content: space-between; align-items: center; position: sticky; top:0; z-index:100; }
+        .logo { font-size: 20px; font-weight: bold; color: var(--main); text-transform: uppercase; text-decoration: none; }
+        .search-box { padding: 8px 15px; border-radius: 20px; border: 1px solid #444; background: #222; color: #fff; width: 150px; outline: none; }
+        .container { padding: 20px 5%; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+        .card { background: var(--card); border-radius: 10px; overflow: hidden; text-decoration: none; color: inherit; border: 1px solid #333; transition: 0.3s; position: relative; display: block; }
+        .card:hover { transform: translateY(-5px); border-color: var(--main); }
+        .card img { width: 100%; height: 230px; object-fit: cover; display: block; }
+        .card h3 { font-size: 13px; padding: 10px; margin: 0; text-align: center; height: 35px; overflow: hidden; }
+        @media (max-width: 600px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">Viral Anime</a>
+        <input type="text" class="search-box" placeholder="Search..." id="search" onkeyup="search()">
+    </header>
+
+    <div class="container">
+        <h2 style="font-size: 18px; border-left: 3px solid var(--main); padding-left: 10px; margin-bottom: 20px;">LATEST UPDATES</h2>
+        <div class="grid" id="animeGrid">
+            </div>
+    </div>
+
+    <footer style="margin-top: 40px; padding: 20px 0; text-align: center; border-top: 1px solid #333; background: #000; color: #8b949e; font-size: 14px;">
+        <p style="margin: 0;">&copy; 2024 - 2026 <span style="color: #ff0055; font-weight: bold;">Viral Anime Hub</span>. All Rights Reserved.</p>
+        <p style="margin: 5px 0 0; font-size: 12px; opacity: 0.7; padding: 0 10px;">
+            Viral Anime does not store any files on own server. We only index links from third-party services.
+        </p>
+    </footer>
+
+    <script src="data.js"></script>
+
+    <script>
+        // Main function to show anime
+        function render(list) {
+            const grid = document.getElementById('animeGrid');
+            if (!list || list.length === 0) {
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding:50px; opacity:0.5;">No results found...</p>`;
+                return;
+            }
+
+            grid.innerHTML = list.map(a => `
+                <a href="player.html?id=${a.id}" class="card">
+                    <img src="${a.poster}" alt="${a.title}" loading="lazy">
+                    <div style="padding:10px;">
+                        <h3 style="margin:0; font-size:14px;">${a.title}</h3>
+                        <p style="margin:5px 0 0; font-size:12px; color:#ff0055;">${a.year || '2024'}</p>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        // Search logic
+        function search() {
+            const query = document.getElementById('search').value.toLowerCase();
+            const filtered = animeList.filter(item => 
+                item.title.toLowerCase().includes(query)
+            );
+            render(filtered);
+        }
+
+        // Pehle check karo data load hua ya nahi
+        window.addEventListener('DOMContentLoaded', () => {
+            if (typeof animeList !== 'undefined') {
+                render(animeList);
+            } else {
+                document.getElementById('animeGrid').innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:yellow;">Error: data.js not found or empty!</p>`;
+            }
+        });
+    </script>
+
+</body>
+</html>
