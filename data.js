@@ -2,7 +2,7 @@ const animeList = [
     {
         id: "wind-breaker",
         title: "Wind Breaker Season 1(Hindi dub)",
-        poster: "https://image.tmdb.org/t/p/w500/rsOApVLbIQEcNkqSlOxNPyg3FyI.jpg",
+        poster: "https://image.tmdb.org/t/p/w92/8XBaug59lVB45lxo6ZUoghH1Bdj.jpg",
         year: "2024",
         duration: "24m",
         rating: "7.72",
@@ -30,7 +30,7 @@ const animeList = [
     {
         id: "solo-leveling",
         title: "Solo Leveling (Hindi Dubbed)",
-        poster: "https://image.tmdb.org/t/p/w500/geCRmSbt2dvGh3IhpbrvwwqMTky.jpg",
+        poster: "https://image.tmdb.org/t/p/w92/geCRueV3ElhRTr0xtJuEWJt6dJ1.jpg",
         year: "2024",
         duration: "24m",
         rating: "8.7",
