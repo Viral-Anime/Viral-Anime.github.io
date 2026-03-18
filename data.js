@@ -2,7 +2,7 @@ const animeList = [
     {
         id: "wind-breaker",
         title: "Wind Breaker Season 1(Hindi dub)",
-        poster: "https://image.tmdb.org/t/p/w500/f0CZzRXyqCc41NePDJSY23YQ2SS.jpg",
+        poster: "https://image.tmdb.org/t/p/w500/rsOApVLbIQEcNkqSlOxNPyg3FyI.jpg",
         year: "2024",
         duration: "24m",
         rating: "7.72",
