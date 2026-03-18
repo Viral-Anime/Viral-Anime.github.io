@@ -5,84 +5,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Viral Anime | Player</title>
     <style>
-        :root { --main: #ff0055; --bg: #0b0e14; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; text-align: center; }
-        header { padding: 15px; background: #000; border-bottom: 2px solid var(--main); margin-bottom: 20px; }
-        .logo { color: var(--main); font-weight: bold; text-decoration: none; font-size: 20px; }
-        .player-box { width: 95%; max-width: 900px; margin: auto; }
-        iframe { width: 100%; height: 450px; border: 2px solid #333; border-radius: 10px; background: #000; }
-        .controls { margin-top: 20px; display: flex; justify-content: center; gap: 10px; }
-        button { padding: 12px 20px; cursor: pointer; background: var(--main); border: none; color: white; font-weight: bold; border-radius: 5px; }
-        button:disabled { background: #333; cursor: not-allowed; opacity: 0.5; }
-        .details { text-align: left; padding: 20px; max-width: 900px; margin: auto; }
-        h2 { color: var(--main); margin: 10px 0; }
-        p { color: #bbb; line-height: 1.6; }
-        @media (max-width: 600px) { iframe { height: 250px; } }
+        :root { --main: #ff0055; --bg: #0b0e14; --card: #1c2129; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; }
+        
+        /* Header & Back Button */
+        header { padding: 15px 5%; background: #000; border-bottom: 2px solid var(--main); display: flex; align-items: center; justify-content: space-between; }
+        .back-btn { text-decoration: none; color: white; background: #222; padding: 8px 15px; border-radius: 5px; font-size: 14px; border: 1px solid #444; }
+
+        .container { padding: 20px 5%; max-width: 1000px; margin: auto; }
+        
+        /* Player Style */
+        .video-wrapper { position: relative; width: 100%; padding-top: 56.25%; background: #000; border-radius: 10px; overflow: hidden; border: 1px solid #333; }
+        iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+        /* Next/Prev Controls */
+        .controls { display: flex; justify-content: space-between; margin: 20px 0; gap: 10px; }
+        .nav-btn { flex: 1; padding: 12px; cursor: pointer; background: var(--main); border: none; color: white; font-weight: bold; border-radius: 5px; text-align: center; }
+        .nav-btn:disabled { background: #333; opacity: 0.5; cursor: not-allowed; }
+
+        /* Details Section */
+        .anime-info { display: flex; gap: 20px; margin-top: 30px; background: var(--card); padding: 20px; border-radius: 10px; border: 1px solid #333; }
+        .anime-info img { width: 150px; border-radius: 8px; object-fit: cover; }
+        .info-text h2 { margin: 0 0 10px 0; color: var(--main); }
+        .info-text p { font-size: 14px; color: #ccc; line-height: 1.5; }
+
+        /* Episode List Section */
+        .ep-list-container { margin-top: 30px; }
+        .ep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; margin-top: 15px; }
+        .ep-btn { padding: 10px; background: #222; border: 1px solid #444; color: white; text-align: center; text-decoration: none; border-radius: 5px; font-size: 13px; }
+        .ep-btn.active { background: var(--main); border-color: var(--main); }
+
+        @media (max-width: 600px) {
+            .anime-info { flex-direction: column; align-items: center; text-align: center; }
+            .anime-info img { width: 120px; }
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <a href="index.html" class="logo">VIRAL ANIME</a>
+        <div style="font-size: 18px; font-weight: bold; color: var(--main);">VIRAL ANIME</div>
+        <a href="index.html" class="back-btn">← Back to Home</a>
     </header>
 
-    <div class="player-box">
-        <h2 id="displayTitle">Loading...</h2>
-        <p id="displayEp" style="color:var(--main); font-weight:bold;">Episode --</p>
-        
-        <iframe id="videoPlayer" src="" allowfullscreen="true" scrolling="no"></iframe>
+    <div class="container">
+        <div class="video-wrapper">
+            <iframe id="mainPlayer" src="" allowfullscreen="true"></iframe>
+        </div>
 
         <div class="controls">
-            <button id="prevBtn" onclick="changeEp(-1)">Previous</button>
-            <button id="nextBtn" onclick="changeEp(1)">Next Episode</button>
+            <button id="prevBtn" class="nav-btn" onclick="goEp(-1)">Previous</button>
+            <button id="nextBtn" class="nav-btn" onclick="goEp(1)">Next Episode</button>
+        </div>
+
+        <div class="anime-info">
+            <img id="poster" src="" alt="Poster">
+            <div class="info-text">
+                <h2 id="title">Loading...</h2>
+                <p id="meta" style="color: var(--main); font-weight: bold;"></p>
+                <p id="desc"></p>
+            </div>
+        </div>
+
+        <div class="ep-list-container">
+            <h3 style="border-left: 3px solid var(--main); padding-left: 10px;">EPISODES LIST</h3>
+            <div class="ep-grid" id="epGrid"></div>
         </div>
     </div>
 
-    <div class="details">
-        <h3>Description:</h3>
-        <p id="displayDesc">Anime details loading...</p>
-    </div>
-
     <script src="data.js"></script>
-
     <script>
         const params = new URLSearchParams(window.location.search);
         const animeId = params.get('id');
         let currentEp = parseInt(params.get('ep')) || 0;
 
-        function loadPlayer() {
-            // data.js se anime dhundo
+        function renderPlayer() {
             const anime = animeList.find(a => a.id === animeId);
+            if (!anime) return;
 
-            if (anime) {
-                // UI Update Karo
-                document.getElementById('displayTitle').innerText = anime.title;
-                document.getElementById('displayEp').innerText = "Episode " + (currentEp + 1);
-                document.getElementById('displayDesc').innerText = anime.description;
+            // 1. Update Media
+            document.getElementById('mainPlayer').src = anime.server1[currentEp];
+            document.getElementById('poster').src = anime.poster;
+            document.getElementById('title').innerText = anime.title + " - Ep " + (currentEp + 1);
+            document.getElementById('meta').innerText = `${anime.year || '2024'} • Rating: ${anime.rating || 'N/A'}`;
+            document.getElementById('desc').innerText = anime.description;
 
-                // Video Source Update (Ye Main Hai)
-                const videoUrl = anime.server1[currentEp];
-                document.getElementById('videoPlayer').src = videoUrl;
+            // 2. Update Nav Buttons
+            document.getElementById('prevBtn').disabled = (currentEp === 0);
+            document.getElementById('nextBtn').disabled = (currentEp >= anime.server1.length - 1);
 
-                // Buttons check karo
-                document.getElementById('prevBtn').disabled = (currentEp === 0);
-                document.getElementById('nextBtn').disabled = (currentEp >= anime.server1.length - 1);
-            } else {
-                document.body.innerHTML = "<h1>Anime Not Found</h1><a href='index.html' style='color:white'>Go Back</a>";
-            }
+            // 3. Render Episode Grid
+            const epGrid = document.getElementById('epGrid');
+            epGrid.innerHTML = anime.server1.map((url, index) => `
+                <a href="player.html?id=${animeId}&ep=${index}" 
+                   class="ep-btn ${index === currentEp ? 'active' : ''}">
+                   Ep ${index + 1}
+                </a>
+            `).join('');
         }
 
-        function changeEp(step) {
-            currentEp += step;
-            // Naya URL banao aur page refresh kar do
-            // Isse Solo Leveling ke hashtag wala issue khatam ho jayega
-            const newUrl = `player.html?id=${animeId}&ep=${currentEp}`;
-            window.location.href = newUrl;
+        // Ye function URL badal kar page refresh karega (Next/Prev ke liye)
+        function goEp(step) {
+            let nextIndex = currentEp + step;
+            window.location.href = `player.html?id=${animeId}&ep=${nextIndex}`;
         }
 
-        // Run on Load
-        window.onload = loadPlayer;
+        window.onload = renderPlayer;
     </script>
-
 </body>
 </html>
