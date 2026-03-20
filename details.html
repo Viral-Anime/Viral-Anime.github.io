@@ -16,35 +16,32 @@
         .meta-info { font-size: 13px; color: #aaa; margin-bottom: 15px; }
         .desc { font-size: 14px; line-height: 1.5; color: #ccc; text-align: justify; margin-top: 15px; border-top: 1px solid #333; padding-top: 15px; }
 
-        .season-container { margin-top: 25px; }
-        .s-tabs { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+        .s-tabs { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
         .s-btn { background: #222; border: 1px solid #444; color: white; padding: 8px 18px; border-radius: 25px; cursor: pointer; font-size: 13px; }
         .s-btn.active { background: var(--main); border-color: var(--main); }
 
-        .ep-list { background: #161b22; border-radius: 10px; border: 1px solid #222; overflow: hidden; }
-        .ep-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid #222; text-decoration: none; color: white; transition: 0.2s; }
-        .ep-item:hover { background: #1c2129; }
-        .play-tag { background: #333; padding: 4px 12px; border-radius: 4px; font-size: 11px; text-transform: uppercase; color: #bbb; }
+        .ep-list { background: #161b22; border-radius: 10px; border: 1px solid #222; overflow: hidden; margin-top: 10px; }
+        .ep-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid #222; text-decoration: none; color: white; }
+        .ep-item:last-child { border-bottom: none; }
+        .play-tag { background: #333; padding: 4px 12px; border-radius: 4px; font-size: 11px; color: #bbb; }
     </style>
 </head>
 <body>
 
-<header><div style="font-weight:bold; color:var(--main); letter-spacing:1px;">VIRAL ANIME</div></header>
+<header><div style="font-weight:bold; color:var(--main);">VIRAL ANIME</div></header>
 
-<div class="container">
+<div class="container" id="mainContent">
     <div class="hero-card">
-        <img id="poster" src="" alt="Poster">
+        <img id="poster" src="" alt="">
         <h1 id="title">Loading...</h1>
         <div class="meta-info" id="meta"></div>
         <p><strong>Genre:</strong> <span id="genre"></span></p>
         <p class="desc" id="desc"></p>
     </div>
 
-    <div class="season-container">
-        <div class="s-tabs" id="seasonTabs"></div>
-        <h3 style="border-left: 4px solid var(--main); padding-left: 12px; font-size: 16px; margin: 20px 0;">EPISODES</h3>
-        <div class="ep-list" id="epList"></div>
-    </div>
+    <div class="s-tabs" id="seasonTabs"></div>
+    <h3 style="border-left: 4px solid var(--main); padding-left: 12px; font-size: 16px;">EPISODES</h3>
+    <div class="ep-list" id="epList"></div>
 </div>
 
 <script src="data.js"></script>
@@ -54,12 +51,16 @@
     const anime = animeList.find(a => a.id === id);
 
     function loadEpisodes(sIdx) {
-        document.querySelectorAll('.s-btn').forEach((b, i) => b.classList.toggle('active', i === sIdx));
-        const list = document.getElementById('epList');
-        // Maan lete hain ki data.js mein seasons array hai (S1=index 0, S2=index 1)
-        const episodes = anime.seasons[sIdx].episodes;
+        // Button active class update
+        document.querySelectorAll('.s-btn').forEach((btn, i) => {
+            btn.classList.toggle('active', i === sIdx);
+        });
+
+        const listContainer = document.getElementById('epList');
+        const season = anime.seasons[sIdx];
         
-        list.innerHTML = episodes.map((url, i) => `
+        // Episode list render karna (server1 ki length se)
+        listContainer.innerHTML = season.server1.map((url, i) => `
             <a href="player.html?id=${id}&s=${sIdx}&ep=${i}" class="ep-item">
                 <span>E${i+1} - Episode ${i+1}</span>
                 <span class="play-tag">Watch</span>
@@ -74,11 +75,18 @@
         document.getElementById('genre').innerText = anime.genres || "Anime";
         document.getElementById('meta').innerText = `${anime.year} • ⭐ ${anime.rating}`;
 
+        // Season buttons banana
         const tabs = document.getElementById('seasonTabs');
-        tabs.innerHTML = anime.seasons.map((s, i) => `
-            <button class="s-btn ${i===0?'active':''}" onclick="loadEpisodes(${i})">${s.name}</button>
-        `).join('');
-        loadEpisodes(0);
+        if(anime.seasons && anime.seasons.length > 0) {
+            tabs.innerHTML = anime.seasons.map((s, i) => `
+                <button class="s-btn ${i===0?'active':''}" onclick="loadEpisodes(${i})">${s.name}</button>
+            `).join('');
+            
+            // By default pehla season load karo
+            loadEpisodes(0);
+        }
+    } else {
+        document.getElementById('mainContent').innerHTML = "<p style='text-align:center;'>Anime not found!</p>";
     }
 </script>
 </body>
