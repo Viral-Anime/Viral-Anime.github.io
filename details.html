@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anime Details</title>
+    <title>Anime Details | Viral Anime</title>
     <style>
         :root { --main: #ff0055; --bg: #0b0e14; --card: #1c2129; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; padding-bottom: 30px; }
-        header { padding: 15px 5%; background: #000; border-bottom: 2px solid var(--main); display: flex; justify-content: center; }
-        .container { padding: 20px 5%; max-width: 800px; margin: auto; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; scroll-behavior: smooth; }
+        
+        header { padding: 15px 5%; background: #000; border-bottom: 2px solid var(--main); display: flex; justify-content: center; position: sticky; top: 0; z-index: 100; }
+        
+        .container { padding: 20px 5%; max-width: 800px; margin: auto; min-height: 80vh; }
         
         .hero-card { background: var(--card); border-radius: 15px; padding: 25px; border: 1px solid #333; text-align: center; margin-bottom: 20px; }
         .hero-card img { width: 160px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
@@ -16,23 +18,32 @@
         .meta-info { font-size: 13px; color: #aaa; margin-bottom: 15px; }
         .desc { font-size: 14px; line-height: 1.5; color: #ccc; text-align: justify; margin-top: 15px; border-top: 1px solid #333; padding-top: 15px; }
 
-        .s-tabs { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
-        .s-btn { background: #222; border: 1px solid #444; color: white; padding: 8px 18px; border-radius: 25px; cursor: pointer; font-size: 13px; }
-        .s-btn.active { background: var(--main); border-color: var(--main); }
+        .s-tabs { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; position: sticky; top: 60px; background: var(--bg); padding: 10px 0; z-index: 90; }
+        .s-btn { background: #222; border: 1px solid #444; color: white; padding: 8px 18px; border-radius: 25px; cursor: pointer; font-size: 13px; transition: 0.3s; }
+        .s-btn:hover { border-color: var(--main); color: var(--main); }
 
-        .ep-list { background: #161b22; border-radius: 10px; border: 1px solid #222; overflow: hidden; margin-top: 10px; }
-        .ep-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid #222; text-decoration: none; color: white; }
+        .season-section { margin-top: 30px; }
+        .season-title { border-left: 4px solid var(--main); padding-left: 12px; font-size: 18px; margin-bottom: 15px; text-transform: uppercase; color: var(--main); font-weight: bold; }
+
+        .ep-list { background: #161b22; border-radius: 10px; border: 1px solid #222; overflow: hidden; margin-bottom: 40px; }
+        .ep-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid #222; text-decoration: none; color: white; transition: 0.2s; }
+        .ep-item:hover { background: #1c2129; padding-left: 25px; border-left: 3px solid var(--main); }
         .ep-item:last-child { border-bottom: none; }
         .play-tag { background: #333; padding: 4px 12px; border-radius: 4px; font-size: 11px; color: #bbb; }
+
+        /* Footer Styling */
+        footer { margin-top: 60px; padding: 30px 5%; text-align: center; border-top: 1px solid #333; background: #000; color: #8b949e; font-size: 14px; }
+        .footer-brand { color: var(--main); font-weight: bold; }
+        .disclaimer { margin-top: 10px; font-size: 12px; opacity: 0.7; line-height: 1.6; }
     </style>
 </head>
 <body>
 
-<header><div style="font-weight:bold; color:var(--main);">VIRAL ANIME</div></header>
+<header><div style="font-weight:bold; color:var(--main); letter-spacing: 1px;">VIRAL ANIME</div></header>
 
 <div class="container" id="mainContent">
     <div class="hero-card">
-        <img id="poster" src="" alt="">
+        <img id="poster" src="" alt="Poster">
         <h1 id="title">Loading...</h1>
         <div class="meta-info" id="meta"></div>
         <p><strong>Genre:</strong> <span id="genre"></span></p>
@@ -40,33 +51,21 @@
     </div>
 
     <div class="s-tabs" id="seasonTabs"></div>
-    <h3 style="border-left: 4px solid var(--main); padding-left: 12px; font-size: 16px;">EPISODES</h3>
-    <div class="ep-list" id="epList"></div>
+    <div id="seasonsWrapper"></div>
 </div>
+
+<footer>
+    <p style="margin: 0;">&copy; 2024 - 2026 <span class="footer-brand">Viral Anime Hub</span>. All Rights Reserved.</p>
+    <p class="disclaimer">
+        Viral Anime does not store any files on own server. We only index links from third-party services.
+    </p>
+</footer>
 
 <script src="data.js"></script>
 <script>
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
     const anime = animeList.find(a => a.id === id);
-
-    function loadEpisodes(sIdx) {
-        // Button active class update
-        document.querySelectorAll('.s-btn').forEach((btn, i) => {
-            btn.classList.toggle('active', i === sIdx);
-        });
-
-        const listContainer = document.getElementById('epList');
-        const season = anime.seasons[sIdx];
-        
-        // Episode list render karna (server1 ki length se)
-        listContainer.innerHTML = season.server1.map((url, i) => `
-            <a href="player.html?id=${id}&s=${sIdx}&ep=${i}" class="ep-item">
-                <span>E${i+1} - Episode ${i+1}</span>
-                <span class="play-tag">Watch</span>
-            </a>
-        `).join('');
-    }
 
     if(anime) {
         document.getElementById('title').innerText = anime.title;
@@ -75,18 +74,50 @@
         document.getElementById('genre').innerText = anime.genres || "Anime";
         document.getElementById('meta').innerText = `${anime.year} • ⭐ ${anime.rating}`;
 
-        // Season buttons banana
         const tabs = document.getElementById('seasonTabs');
+        const wrapper = document.getElementById('seasonsWrapper');
+
         if(anime.seasons && anime.seasons.length > 0) {
-            tabs.innerHTML = anime.seasons.map((s, i) => `
-                <button class="s-btn ${i===0?'active':''}" onclick="loadEpisodes(${i})">${s.name}</button>
-            `).join('');
-            
-            // By default pehla season load karo
-            loadEpisodes(0);
+            anime.seasons.forEach((season, sIdx) => {
+                // Scroll Buttons
+                const btn = document.createElement('button');
+                btn.className = 's-btn';
+                btn.innerText = season.name;
+                btn.onclick = () => {
+                    const target = document.getElementById(`season-${sIdx}`);
+                    const offset = 120; // sticky header + tabs ke liye offset
+                    const bodyRect = document.body.getBoundingClientRect().top;
+                    const elementRect = target.getBoundingClientRect().top;
+                    const elementPosition = elementRect - bodyRect;
+                    const offsetPosition = elementPosition - offset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                };
+                tabs.appendChild(btn);
+
+                // Season Sections
+                const section = document.createElement('div');
+                section.className = 'season-section';
+                section.id = `season-${sIdx}`;
+                section.innerHTML = `
+                    <div class="season-title">${season.name}</div>
+                    <div class="ep-list">
+                        ${season.server1.map((url, eIdx) => `
+                            <a href="player.html?id=${id}&s=${sIdx}&ep=${eIdx}" class="ep-item">
+                                <span>E${eIdx+1} - Episode ${eIdx+1}</span>
+                                <span class="play-tag">Watch</span>
+                            </a>
+                        `).join('')}
+                    </div>
+                `;
+                wrapper.appendChild(section);
+            });
         }
     } else {
-        document.getElementById('mainContent').innerHTML = "<p style='text-align:center;'>Anime not found!</p>";
+        document.getElementById('mainContent').innerHTML = "<p style='text-align:center; padding: 50px;'>Anime not found!</p>";
     }
 </script>
 </body>
