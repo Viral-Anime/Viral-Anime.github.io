@@ -6,42 +6,45 @@
     <title>Anime Details</title>
     <style>
         :root { --main: #ff0055; --bg: #0b0e14; --card: #1c2129; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; }
-        header { padding: 15px 5%; background: #000; border-bottom: 2px solid var(--main); display: flex; justify-content: space-between; }
-        .container { padding: 20px 5%; max-width: 900px; margin: auto; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; padding-bottom: 30px; }
+        header { padding: 15px 5%; background: #000; border-bottom: 2px solid var(--main); display: flex; justify-content: center; }
+        .container { padding: 20px 5%; max-width: 800px; margin: auto; }
         
-        .hero-card { background: var(--card); border-radius: 15px; padding: 25px; border: 1px solid #333; text-align: center; margin-bottom: 30px; }
-        .hero-card img { width: 160px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
-        .hero-card h1 { margin: 10px 0; color: var(--main); font-size: 22px; }
-        .hero-card p { font-size: 14px; color: #ccc; line-height: 1.5; }
+        .hero-card { background: var(--card); border-radius: 15px; padding: 25px; border: 1px solid #333; text-align: center; margin-bottom: 20px; }
+        .hero-card img { width: 160px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        .hero-card h1 { margin: 10px 0; font-size: 22px; color: var(--main); }
+        .meta-info { font-size: 13px; color: #aaa; margin-bottom: 15px; }
+        .desc { font-size: 14px; line-height: 1.5; color: #ccc; text-align: justify; margin-top: 15px; border-top: 1px solid #333; padding-top: 15px; }
 
-        .season-btn { background: var(--main); border: none; color: white; padding: 10px 25px; border-radius: 20px; font-weight: bold; margin-bottom: 20px; cursor: pointer; }
-        
-        .ep-list { background: #161b22; border-radius: 10px; border: 1px solid #333; }
-        .ep-row { display: flex; justify-content: space-between; padding: 15px 20px; border-bottom: 1px solid #222; text-decoration: none; color: white; font-size: 14px; }
-        .ep-row:last-child { border: none; }
-        .watch-tag { background: #333; padding: 4px 12px; border-radius: 4px; font-size: 12px; }
+        .season-container { margin-top: 25px; }
+        .s-tabs { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+        .s-btn { background: #222; border: 1px solid #444; color: white; padding: 8px 18px; border-radius: 25px; cursor: pointer; font-size: 13px; }
+        .s-btn.active { background: var(--main); border-color: var(--main); }
+
+        .ep-list { background: #161b22; border-radius: 10px; border: 1px solid #222; overflow: hidden; }
+        .ep-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid #222; text-decoration: none; color: white; transition: 0.2s; }
+        .ep-item:hover { background: #1c2129; }
+        .play-tag { background: #333; padding: 4px 12px; border-radius: 4px; font-size: 11px; text-transform: uppercase; color: #bbb; }
     </style>
 </head>
 <body>
 
-<header>
-    <div style="font-weight:bold; color:var(--main);">VIRAL ANIME</div>
-    <a href="index.html" style="color:white; text-decoration:none; font-size:14px;">Home</a>
-</header>
+<header><div style="font-weight:bold; color:var(--main); letter-spacing:1px;">VIRAL ANIME</div></header>
 
 <div class="container">
     <div class="hero-card">
-        <img id="poster" src="" alt="">
+        <img id="poster" src="" alt="Poster">
         <h1 id="title">Loading...</h1>
-        <div style="margin: 10px 0; font-size: 12px; opacity: 0.7;" id="meta"></div>
-        <p id="desc"></p>
+        <div class="meta-info" id="meta"></div>
+        <p><strong>Genre:</strong> <span id="genre"></span></p>
+        <p class="desc" id="desc"></p>
     </div>
 
-    <button class="season-btn" id="seasonLabel">Season 1</button>
-
-    <h3 style="border-left: 4px solid var(--main); padding-left: 10px; font-size: 16px;">Season 1 Episodes</h3>
-    <div class="ep-list" id="epList"></div>
+    <div class="season-container">
+        <div class="s-tabs" id="seasonTabs"></div>
+        <h3 style="border-left: 4px solid var(--main); padding-left: 12px; font-size: 16px; margin: 20px 0;">EPISODES</h3>
+        <div class="ep-list" id="epList"></div>
+    </div>
 </div>
 
 <script src="data.js"></script>
@@ -50,20 +53,32 @@
     const id = params.get('id');
     const anime = animeList.find(a => a.id === id);
 
+    function loadEpisodes(sIdx) {
+        document.querySelectorAll('.s-btn').forEach((b, i) => b.classList.toggle('active', i === sIdx));
+        const list = document.getElementById('epList');
+        // Maan lete hain ki data.js mein seasons array hai (S1=index 0, S2=index 1)
+        const episodes = anime.seasons[sIdx].episodes;
+        
+        list.innerHTML = episodes.map((url, i) => `
+            <a href="player.html?id=${id}&s=${sIdx}&ep=${i}" class="ep-item">
+                <span>E${i+1} - Episode ${i+1}</span>
+                <span class="play-tag">Watch</span>
+            </a>
+        `).join('');
+    }
+
     if(anime) {
         document.getElementById('title').innerText = anime.title;
         document.getElementById('poster').src = anime.poster;
         document.getElementById('desc').innerText = anime.description;
-        document.getElementById('meta').innerText = `${anime.year} • ${anime.genres} • ⭐ ${anime.rating}`;
-        
-        const epList = document.getElementById('epList');
-        // Maan lete hain abhi Season 1 hi hai
-        epList.innerHTML = anime.server1.map((url, i) => `
-            <a href="player.html?id=${id}&ep=${i}" class="ep-row">
-                <span>E${i+1} - Episode ${i+1}</span>
-                <span class="watch-tag">Watch</span>
-            </a>
+        document.getElementById('genre').innerText = anime.genres || "Anime";
+        document.getElementById('meta').innerText = `${anime.year} • ⭐ ${anime.rating}`;
+
+        const tabs = document.getElementById('seasonTabs');
+        tabs.innerHTML = anime.seasons.map((s, i) => `
+            <button class="s-btn ${i===0?'active':''}" onclick="loadEpisodes(${i})">${s.name}</button>
         `).join('');
+        loadEpisodes(0);
     }
 </script>
 </body>
