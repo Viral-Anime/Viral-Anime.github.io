@@ -2,7 +2,7 @@ const animeList = [
     {
         id: "wind-breaker",
         title: "Wind Breaker (Hindi Dub)",
-        poster: "https://image.tmdb.org/t/p/w92/8XBaug59lVB45lxo6ZUoghH1Bdj.jpg",
+        poster: "https://image.tmdb.org/t/p/w500/f0CZzRXyqCc41NePDJSY23YQ2SS.jpg",
         year: "2024",
         duration: "24m",
         rating: "7.72",
@@ -35,7 +35,7 @@ const animeList = [
     {
         id: "solo-leveling",
         title: "Solo Leveling (Hindi Dubbed)",
-        poster: "https://image.tmdb.org/t/p/w92/geCRueV3ElhRTr0xtJuEWJt6dJ1.jpg",
+        poster: "https://image.tmdb.org/t/p/w500/rsOApVLbIQEcNkqSlOxNPyg3FyI.jpg",
         year: "2024",
         duration: "24m",
         rating: "8.7",
@@ -66,7 +66,7 @@ const animeList = [
 {
     "id": "haikyuu",
     "title": "Haikyuu!!",
-    "poster": "https://image.tmdb.org/t/p/w92/placeholder.jpg",
+    "poster": "https://image.tmdb.org/t/p/w500/rm39VFnu0giTTccK0vSsPsKiatj.jpg",
     "year": "2014",
     "duration": "24m",
     "rating": "8.7",
@@ -140,7 +140,7 @@ const animeList = [
 {
     "id": "naruto",
     "title": "Naruto",
-    "poster": "https://image.tmdb.org/t/p/w92/placeholder.jpg",
+    "poster": "https://image.tmdb.org/t/p/w500/xppeysfvDKVx775MFuH8Z9BlpMk.jpg",
     "year": "2002",
     "duration": "23m",
     "rating": "8.4",
