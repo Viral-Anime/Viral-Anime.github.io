@@ -53,7 +53,8 @@
             }
 
             grid.innerHTML = list.map(a => `
-                <a href="player.html?id=${a.id}" class="card">
+    <a href="details.html?id=${a.id}" class="card">
+
                     <img src="${a.poster}" alt="${a.title}" loading="lazy">
                     <div style="padding:10px;">
                         <h3 style="margin:0; font-size:14px;">${a.title}</h3>
