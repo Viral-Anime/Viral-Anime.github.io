@@ -25,11 +25,16 @@
         .nav-btn i { font-size: 18px; }
         .nav-btn:disabled { opacity: 0.2; cursor: not-allowed; }
 
-        .episode-section { padding: 20px 5%; }
+        .episode-section { padding: 20px 5%; min-height: 200px; }
         .section-title { font-size: 14px; color: var(--main); font-weight: bold; margin-bottom: 10px; border-left: 3px solid var(--main); padding-left: 10px; }
         .ep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(65px, 1fr)); gap: 8px; }
         .ep-link { padding: 8px; background: var(--card); border: 1px solid #333; color: white; text-decoration: none; text-align: center; border-radius: 4px; font-size: 11px; }
         .ep-link.active { border-color: var(--main); background: #2d131a; color: var(--main); }
+
+        /* Footer Styling */
+        footer { margin-top: 40px; padding: 30px 5%; text-align: center; border-top: 1px solid #333; background: #000; color: #8b949e; font-size: 14px; }
+        .footer-brand { color: var(--main); font-weight: bold; }
+        .disclaimer { margin-top: 10px; font-size: 12px; opacity: 0.7; line-height: 1.6; padding: 0 10px; }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -68,6 +73,13 @@
     <div class="ep-grid" id="miniGrid"></div>
 </div>
 
+<footer>
+    <p style="margin: 0;">&copy; 2024 - 2026 <span class="footer-brand">Viral Anime Hub</span>. All Rights Reserved.</p>
+    <p class="disclaimer">
+        Viral Anime does not store any files on own server. We only index links from third-party services.
+    </p>
+</footer>
+
 <script src="data.js"></script>
 <script>
     const params = new URLSearchParams(window.location.search);
@@ -78,10 +90,11 @@
 
     function loadSource(srvNum) {
         const season = anime.seasons[sIdx];
-        const videoUrl = (srvNum === 2) ? season.server2[epIdx] : season.server1[epIdx];
+        const videoUrl = (srvNum === 2 && season.server2 && season.server2.length > 0) 
+            ? season.server2[epIdx] 
+            : season.server1[epIdx];
         document.getElementById('playerFrame').src = videoUrl;
         
-        // Active button style
         document.querySelectorAll('.srv-btn').forEach((b, i) => {
             b.classList.toggle('active', i === (srvNum - 1));
         });
@@ -92,7 +105,6 @@
         document.getElementById('displayTitle').innerText = `${anime.title} - S${sIdx+1} E${epIdx+1}`;
         document.getElementById('listBtn').href = `details.html?id=${id}`;
 
-        // Servers Buttons Logic
         const srvBox = document.getElementById('srvBox');
         if (season.server1 && season.server1.length > 0) {
             srvBox.innerHTML += `<button class="srv-btn active" onclick="loadSource(1)">Server 1</button>`;
@@ -101,11 +113,9 @@
             srvBox.innerHTML += `<button class="srv-btn" onclick="loadSource(2)">Server 2</button>`;
         }
 
-        // Nav Buttons Logic
         document.getElementById('prevBtn').disabled = (epIdx === 0);
         document.getElementById('nextBtn').disabled = (epIdx >= season.server1.length - 1);
 
-        // Episode Grid Logic
         const miniGrid = document.getElementById('miniGrid');
         miniGrid.innerHTML = season.server1.map((_, i) => `
             <a href="player.html?id=${id}&s=${sIdx}&ep=${i}" class="ep-link ${i === epIdx ? 'active' : ''}">
