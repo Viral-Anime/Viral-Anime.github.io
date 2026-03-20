@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Details</title>
+    <style>
+        :root { --main: #ff0055; --bg: #0b0e14; --card: #1c2129; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; padding-bottom: 50px; }
+        header { padding: 15px 5%; background: #000; border-bottom: 2px solid var(--main); display: flex; justify-content: space-between; align-items: center; }
+        .container { padding: 20px 5%; max-width: 1000px; margin: auto; }
+        
+        /* Banner Section */
+        .banner { display: flex; gap: 20px; background: var(--card); padding: 20px; border-radius: 12px; border: 1px solid #333; }
+        .banner img { width: 180px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .info h1 { margin: 0; color: var(--main); font-size: 24px; }
+        .meta { margin: 10px 0; font-size: 14px; color: #aaa; }
+        .desc { font-size: 14px; line-height: 1.6; color: #ccc; border-top: 1px solid #333; padding-top: 10px; margin-top: 10px; }
+
+        /* Batch Download Box */
+        .batch-box { background: linear-gradient(90deg, #1c2129, #2d131a); border: 2px solid var(--main); border-radius: 10px; padding: 15px; text-align: center; margin: 25px 0; }
+        .batch-box a { color: #00d4ff; text-decoration: none; font-weight: bold; font-size: 16px; }
+
+        /* Season Tabs */
+        .season-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .s-btn { background: #222; border: 1px solid #444; color: white; padding: 8px 20px; border-radius: 20px; cursor: pointer; }
+        .s-btn.active { background: var(--main); border-color: var(--main); }
+
+        /* Episode List */
+        .ep-list { background: #161b22; border-radius: 8px; overflow: hidden; }
+        .ep-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-bottom: 1px solid #222; text-decoration: none; color: white; transition: 0.3s; }
+        .ep-item:hover { background: #1c2129; }
+        .ep-item .play-icon { background: #333; padding: 5px 15px; border-radius: 5px; font-size: 12px; }
+
+        @media (max-width: 600px) { .banner { flex-direction: column; align-items: center; text-align: center; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" style="color:var(--main); text-decoration:none; font-weight:bold;">VIRAL ANIME</a>
+    <a href="index.html" style="color:white; text-decoration:none; font-size:14px;">← Back</a>
+</header>
+
+<div class="container">
+    <div class="banner">
+        <img id="poster" src="" alt="">
+        <div class="info">
+            <h1 id="title">Loading...</h1>
+            <div class="meta" id="meta"></div>
+            <p><strong>Genre:</strong> <span id="genre"></span></p>
+            <p class="desc" id="desc"></p>
+        </div>
+    </div>
+
+    <div class="batch-box">
+        <p style="margin:0 0 5px; font-size:12px; opacity:0.8;">|| Download Complete Season - ZIP/BATCH ||</p>
+        <a href="#" id="batchLink">Download All Episodes At Once [Batch]</a>
+    </div>
+
+    <div class="season-tabs">
+        <button class="s-btn active">Season 1</button>
+    </div>
+
+    <h3 style="border-left: 3px solid var(--main); padding-left: 10px; font-size:18px;">Season 1 Episodes</h3>
+    <div class="ep-list" id="epList"></div>
+</div>
+
+<script src="data.js"></script>
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    const anime = animeList.find(a => a.id === id);
+
+    if(anime) {
+        document.getElementById('title').innerText = anime.title;
+        document.getElementById('poster').src = anime.poster;
+        document.getElementById('desc').innerText = anime.description;
+        document.getElementById('genre').innerText = anime.genres;
+        document.getElementById('meta').innerText = `${anime.year} • ${anime.duration} • ⭐ ${anime.rating}`;
+        
+        const epList = document.getElementById('epList');
+        epList.innerHTML = anime.server1.map((url, i) => `
+            <a href="player.html?id=${id}&ep=${i}" class="ep-item">
+                <span>E${i+1} - Episode ${i+1}</span>
+                <span class="play-icon">Watch</span>
+            </a>
+        `).join('');
+    }
+</script>
+</body>
+</html>
