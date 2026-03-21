@@ -613,8 +613,8 @@ const animeList = [
             "server2": []
         },
 {
-    "seasons": [
-        {
+  
+      
             "name": "Season 7",
             "server1": [
                 "https://animehindiworld.seekplays.com/#vdkyl",
