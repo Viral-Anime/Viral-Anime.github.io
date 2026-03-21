@@ -41,20 +41,14 @@
         </p>
     </footer>
 
-    <script src="js/main_data.js"></script>
+ <script src="js/main_data.js"></script>
 
-<script src="js/list.js"></script>
-
+<script src="js/animes/wind-breaker.js"></script>
 <script>
-    if (typeof myAnimes !== 'undefined' && myAnimes.length > 0) {
-        myAnimes.forEach(name => {
-            let s = document.createElement('script');
-            s.src = `js/animes/${name}.js`;
-            s.async = false; // Taki sequence sahi rahe
-            document.head.appendChild(s);
-        });
-    }
+    // Aapka purana code yahan hona chahiye jo animeList ko read karta hai
+    console.log("Total Animes Loaded:", animeList.length);
 </script>
+
 
     <script>
         // Main function to show anime
