@@ -7,31 +7,23 @@
     <style>
         :root { --main: #ff0055; --bg: #0b0e14; --card: #1c2129; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; scroll-behavior: smooth; }
-        
         header { padding: 15px 5%; background: #000; border-bottom: 2px solid var(--main); display: flex; justify-content: center; position: sticky; top: 0; z-index: 100; }
-        
         .container { padding: 20px 5%; max-width: 800px; margin: auto; min-height: 80vh; }
-        
         .hero-card { background: var(--card); border-radius: 15px; padding: 25px; border: 1px solid #333; text-align: center; margin-bottom: 20px; }
         .hero-card img { width: 160px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
         .hero-card h1 { margin: 10px 0; font-size: 22px; color: var(--main); }
         .meta-info { font-size: 13px; color: #aaa; margin-bottom: 15px; }
         .desc { font-size: 14px; line-height: 1.5; color: #ccc; text-align: justify; margin-top: 15px; border-top: 1px solid #333; padding-top: 15px; }
-
         .s-tabs { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; position: sticky; top: 60px; background: var(--bg); padding: 10px 0; z-index: 90; }
         .s-btn { background: #222; border: 1px solid #444; color: white; padding: 8px 18px; border-radius: 25px; cursor: pointer; font-size: 13px; transition: 0.3s; }
         .s-btn:hover { border-color: var(--main); color: var(--main); }
-
         .season-section { margin-top: 30px; }
         .season-title { border-left: 4px solid var(--main); padding-left: 12px; font-size: 18px; margin-bottom: 15px; text-transform: uppercase; color: var(--main); font-weight: bold; }
-
         .ep-list { background: #161b22; border-radius: 10px; border: 1px solid #222; overflow: hidden; margin-bottom: 40px; }
         .ep-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid #222; text-decoration: none; color: white; transition: 0.2s; }
         .ep-item:hover { background: #1c2129; padding-left: 25px; border-left: 3px solid var(--main); }
         .ep-item:last-child { border-bottom: none; }
         .play-tag { background: #333; padding: 4px 12px; border-radius: 4px; font-size: 11px; color: #bbb; }
-
-        /* Footer Styling */
         footer { margin-top: 60px; padding: 30px 5%; text-align: center; border-top: 1px solid #333; background: #000; color: #8b949e; font-size: 14px; }
         .footer-brand { color: var(--main); font-weight: bold; }
         .disclaimer { margin-top: 10px; font-size: 12px; opacity: 0.7; line-height: 1.6; }
@@ -56,83 +48,81 @@
 
 <footer>
     <p style="margin: 0;">&copy; 2024 - 2026 <span class="footer-brand">Viral Anime</span>. All Rights Reserved.</p>
-    <p class="disclaimer">
-        Viral Anime does not store any files on own server. We only index links from third-party services.
-    </p>
+    <p class="disclaimer">Viral Anime does not store any files on own server. We only index links from third-party services.</p>
 </footer>
 
 <script src="js/main_data.js"></script>
-
-<script src="js/list.js"></script>
-
+<script src="js/animes/wind-breaker.js"></script>
 <script>
-    if (typeof myAnimes !== 'undefined' && myAnimes.length > 0) {
-        myAnimes.forEach(name => {
-            let s = document.createElement('script');
-            s.src = `js/animes/${name}.js`;
-            s.async = false; // Taki sequence sahi rahe
-            document.head.appendChild(s);
-        });
-    }
-</script>
+    // Ye function page mein data bharta hai
+    function loadDetails() {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        const anime = animeList.find(a => a.id === id);
 
-<script>
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-    const anime = animeList.find(a => a.id === id);
+        if(anime) {
+            document.getElementById('title').innerText = anime.title;
+            document.getElementById('poster').src = anime.poster;
+            document.getElementById('desc').innerText = anime.description;
+            document.getElementById('genre').innerText = anime.genres || "Anime";
+            document.getElementById('meta').innerText = `${anime.year} • ⭐ ${anime.rating}`;
 
-    if(anime) {
-        document.getElementById('title').innerText = anime.title;
-        document.getElementById('poster').src = anime.poster;
-        document.getElementById('desc').innerText = anime.description;
-        document.getElementById('genre').innerText = anime.genres || "Anime";
-        document.getElementById('meta').innerText = `${anime.year} • ⭐ ${anime.rating}`;
+            const tabs = document.getElementById('seasonTabs');
+            const wrapper = document.getElementById('seasonsWrapper');
+            
+            // Clear existing content if any
+            tabs.innerHTML = "";
+            wrapper.innerHTML = "";
 
-        const tabs = document.getElementById('seasonTabs');
-        const wrapper = document.getElementById('seasonsWrapper');
+            if(anime.seasons && anime.seasons.length > 0) {
+                anime.seasons.forEach((season, sIdx) => {
+                    // Create Season Button
+                    const btn = document.createElement('button');
+                    btn.className = 's-btn';
+                    btn.innerText = season.name;
+                    btn.onclick = () => {
+                        const target = document.getElementById(`season-${sIdx}`);
+                        window.scrollTo({ top: target.offsetTop - 120, behavior: "smooth" });
+                    };
+                    tabs.appendChild(btn);
 
-        if(anime.seasons && anime.seasons.length > 0) {
-            anime.seasons.forEach((season, sIdx) => {
-                // Scroll Buttons
-                const btn = document.createElement('button');
-                btn.className = 's-btn';
-                btn.innerText = season.name;
-                btn.onclick = () => {
-                    const target = document.getElementById(`season-${sIdx}`);
-                    const offset = 120; // sticky header + tabs ke liye offset
-                    const bodyRect = document.body.getBoundingClientRect().top;
-                    const elementRect = target.getBoundingClientRect().top;
-                    const elementPosition = elementRect - bodyRect;
-                    const offsetPosition = elementPosition - offset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: "smooth"
-                    });
-                };
-                tabs.appendChild(btn);
-
-                // Season Sections
-                const section = document.createElement('div');
-                section.className = 'season-section';
-                section.id = `season-${sIdx}`;
-                section.innerHTML = `
-                    <div class="season-title">${season.name}</div>
-                    <div class="ep-list">
-                        ${season.server1.map((url, eIdx) => `
-                            <a href="player.html?id=${id}&s=${sIdx}&ep=${eIdx}" class="ep-item">
-                                <span>E${eIdx+1} - Episode ${eIdx+1}</span>
-                                <span class="play-tag">Watch</span>
-                            </a>
-                        `).join('')}
-                    </div>
-                `;
-                wrapper.appendChild(section);
-            });
+                    // Create Episode List
+                    const section = document.createElement('div');
+                    section.className = 'season-section';
+                    section.id = `season-${sIdx}`;
+                    section.innerHTML = `
+                        <div class="season-title">${season.name}</div>
+                        <div class="ep-list">
+                            ${season.server1.map((url, eIdx) => `
+                                <a href="player.html?id=${id}&s=${sIdx}&ep=${eIdx}" class="ep-item">
+                                    <span>E${eIdx+1} - Episode ${eIdx+1}</span>
+                                    <span class="play-tag">Watch</span>
+                                </a>
+                            `).join('')}
+                        </div>
+                    `;
+                    wrapper.appendChild(section);
+                });
+            }
+        } else {
+            document.getElementById('mainContent').innerHTML = "<p style='text-align:center; padding: 50px;'>Anime not found!</p>";
         }
-    } else {
-        document.getElementById('mainContent').innerHTML = "<p style='text-align:center; padding: 50px;'>Anime not found!</p>";
     }
+
+    // Smart Waiting System
+    let attempts = 0;
+    function init() {
+        attempts++;
+        if (typeof animeList !== 'undefined' && animeList.length > 0) {
+            loadDetails();
+        } else if (attempts < 50) {
+            setTimeout(init, 100);
+        } else {
+            document.getElementById('title').innerText = "Error Loading Data";
+        }
+    }
+
+    window.onload = init;
 </script>
 </body>
 </html>
