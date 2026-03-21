@@ -74,13 +74,27 @@
 </div>
 
 <footer>
-    <p style="margin: 0;">&copy; 2024 - 2026 <span class="footer-brand">Viral Anime Hub</span>. All Rights Reserved.</p>
+    <p style="margin: 0;">&copy; 2024 - 2026 <span class="footer-brand">Viral Anime</span>. All Rights Reserved.</p>
     <p class="disclaimer">
         Viral Anime does not store any files on own server. We only index links from third-party services.
     </p>
 </footer>
 
-<script src="data.js"></script>
+<script src="js/main_data.js"></script>
+
+<script src="js/list.js"></script>
+
+<script>
+    if (typeof myAnimes !== 'undefined' && myAnimes.length > 0) {
+        myAnimes.forEach(name => {
+            let s = document.createElement('script');
+            s.src = `js/animes/${name}.js`;
+            s.async = false; // Taki sequence sahi rahe
+            document.head.appendChild(s);
+        });
+    }
+</script>
+
 <script>
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
