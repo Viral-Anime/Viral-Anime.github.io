@@ -892,9 +892,8 @@ const animeList = [
             "server2": []
         }
     ]
-}
 
-    ]
+   
 }
 
 
