@@ -1,1 +1,1 @@
-const myAnimes = [];
+const myAnimes = ["wind-breker"];
