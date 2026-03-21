@@ -41,25 +41,11 @@
         </p>
     </footer>
 
- <script src="js/main_data.js"></script>
+    <script src="js/main_data.js"></script>
 
-<script src="js/list.js"></script>
-
-<script>
-    if (typeof myAnimes !== 'undefined' && myAnimes.length > 0) {
-        myAnimes.forEach(name => {
-            let s = document.createElement('script');
-            s.src = `js/animes/${name}.js`;
-            s.async = false; // Taki sequence sahi rahe
-            document.head.appendChild(s);
-        });
-    }
-</script>
-
-
-
+    <script src="js/animes/wind-breaker.js"></script>
     <script>
-        // Main function to show anime
+        // Cards render karne wala function
         function render(list) {
             const grid = document.getElementById('animeGrid');
             if (!list || list.length === 0) {
@@ -68,8 +54,7 @@
             }
 
             grid.innerHTML = list.map(a => `
-    <a href="details.html?id=${a.id}" class="card">
-
+                <a href="details.html?id=${a.id}" class="card">
                     <img src="${a.poster}" alt="${a.title}" loading="lazy">
                     <div style="padding:10px;">
                         <h3 style="margin:0; font-size:14px;">${a.title}</h3>
@@ -88,14 +73,20 @@
             render(filtered);
         }
 
-        // Pehle check karo data load hua ya nahi
-        window.addEventListener('DOMContentLoaded', () => {
-            if (typeof animeList !== 'undefined') {
+        // Smart Loader: Jab tak data mil na jaye check karte raho
+        let checkCount = 0;
+        const checkData = setInterval(() => {
+            checkCount++;
+            if (typeof animeList !== 'undefined' && animeList.length > 0) {
+                console.log("Animes Loaded:", animeList.length);
                 render(animeList);
-            } else {
-                document.getElementById('animeGrid').innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:yellow;">Error: data.js not found or empty!</p>`;
+                clearInterval(checkData); // Data mil gaya, loop stop kar do
+            } else if (checkCount > 20) { 
+                // Agar 2 second tak data nahi mila (100ms * 20), toh error dikhao
+                document.getElementById('animeGrid').innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:yellow;">Loading failed. Please check your data files.</p>`;
+                clearInterval(checkData);
             }
-        });
+        }, 100); // Har 100ms mein check karega
     </script>
 
 </body>
