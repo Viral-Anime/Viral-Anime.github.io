@@ -1,1 +1,4 @@
-const myAnimes = ["wind-breaker, kaguya-sama"]; 
+const myAnimes = [
+    "wind-breaker",
+    "kaguya-sama"
+];
