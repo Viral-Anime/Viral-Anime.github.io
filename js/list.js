@@ -1,1 +1,1 @@
-const animeList = [];
+const myAnimes = ["wind-breaker"]; 
