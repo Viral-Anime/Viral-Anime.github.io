@@ -42,8 +42,19 @@
     </footer>
 
     <script src="js/main_data.js"></script>
+    <script src="js/list.js"></script>
 
-    <script src="js/animes/wind-breaker.js"></script>
+    <script>
+        if (typeof myAnimes !== 'undefined' && myAnimes.length > 0) {
+            myAnimes.forEach(name => {
+                let s = document.createElement('script');
+                s.src = `js/animes/${name}.js`;
+                s.async = false; // Sequence sahi rakhne ke liye
+                document.head.appendChild(s);
+            });
+        }
+    </script>
+
     <script>
         // Cards render karne wala function
         function render(list) {
@@ -81,12 +92,12 @@
                 console.log("Animes Loaded:", animeList.length);
                 render(animeList);
                 clearInterval(checkData); // Data mil gaya, loop stop kar do
-            } else if (checkCount > 20) { 
-                // Agar 2 second tak data nahi mila (100ms * 20), toh error dikhao
-                document.getElementById('animeGrid').innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:yellow;">Loading failed. Please check your data files.</p>`;
+            } else if (checkCount > 30) { 
+                // 3 second baad error
+                document.getElementById('animeGrid').innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:yellow;">Loading failed. Check js/list.js and anime files.</p>`;
                 clearInterval(checkData);
             }
-        }, 100); // Har 100ms mein check karega
+        }, 100); 
     </script>
 
 </body>
