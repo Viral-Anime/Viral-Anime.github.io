@@ -52,9 +52,20 @@
 </footer>
 
 <script src="js/main_data.js"></script>
-<script src="js/animes/wind-breaker.js"></script>
+<script src="js/list.js"></script>
+
 <script>
-    // Ye function page mein data bharta hai
+    if (typeof myAnimes !== 'undefined' && myAnimes.length > 0) {
+        myAnimes.forEach(name => {
+            let s = document.createElement('script');
+            s.src = `js/animes/${name}.js`;
+            s.async = false; 
+            document.head.appendChild(s);
+        });
+    }
+</script>
+
+<script>
     function loadDetails() {
         const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
@@ -70,13 +81,11 @@
             const tabs = document.getElementById('seasonTabs');
             const wrapper = document.getElementById('seasonsWrapper');
             
-            // Clear existing content if any
             tabs.innerHTML = "";
             wrapper.innerHTML = "";
 
             if(anime.seasons && anime.seasons.length > 0) {
                 anime.seasons.forEach((season, sIdx) => {
-                    // Create Season Button
                     const btn = document.createElement('button');
                     btn.className = 's-btn';
                     btn.innerText = season.name;
@@ -86,7 +95,6 @@
                     };
                     tabs.appendChild(btn);
 
-                    // Create Episode List
                     const section = document.createElement('div');
                     section.className = 'season-section';
                     section.id = `season-${sIdx}`;
@@ -109,20 +117,18 @@
         }
     }
 
-    // Smart Waiting System
+    // Smart Waiting System (Wait for data to load)
     let attempts = 0;
-    function init() {
+    const checkInterval = setInterval(() => {
         attempts++;
         if (typeof animeList !== 'undefined' && animeList.length > 0) {
             loadDetails();
-        } else if (attempts < 50) {
-            setTimeout(init, 100);
-        } else {
-            document.getElementById('title').innerText = "Error Loading Data";
+            clearInterval(checkInterval);
+        } else if (attempts > 40) {
+            document.getElementById('title').innerText = "Data Not Found";
+            clearInterval(checkInterval);
         }
-    }
-
-    window.onload = init;
+    }, 100);
 </script>
 </body>
 </html>
