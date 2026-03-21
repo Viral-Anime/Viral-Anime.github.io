@@ -70,16 +70,26 @@
 </footer>
 
 <script src="js/main_data.js"></script>
-<script src="js/animes/wind-breaker.js"></script>
+<script src="js/list.js"></script>
+
 <script>
-    // URL se data nikaalna
+    if (typeof myAnimes !== 'undefined' && myAnimes.length > 0) {
+        myAnimes.forEach(name => {
+            let s = document.createElement('script');
+            s.src = `js/animes/${name}.js`;
+            s.async = false; 
+            document.head.appendChild(s);
+        });
+    }
+</script>
+
+<script>
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
     const sIdx = parseInt(params.get('s')) || 0;
     const epIdx = parseInt(params.get('ep')) || 0;
     let currentAnime = null;
 
-    // Video Source load karne wala function
     function loadSource(srvNum) {
         if(!currentAnime) return;
         const season = currentAnime.seasons[sIdx];
@@ -89,12 +99,10 @@
         
         document.getElementById('playerFrame').src = videoUrl;
         
-        // Active button style
         const btns = document.querySelectorAll('.srv-btn');
         btns.forEach((b, i) => b.classList.toggle('active', i === (srvNum - 1)));
     }
 
-    // Player Page set up karne wala function
     function setupPlayer() {
         currentAnime = animeList.find(a => a.id === id);
 
@@ -104,7 +112,7 @@
             document.getElementById('listBtn').href = `details.html?id=${id}`;
 
             const srvBox = document.getElementById('srvBox');
-            srvBox.innerHTML = ""; // Clear loader
+            srvBox.innerHTML = ""; 
             if (season.server1 && season.server1.length > 0) {
                 srvBox.innerHTML += `<button class="srv-btn active" onclick="loadSource(1)">Server 1</button>`;
             }
@@ -112,11 +120,9 @@
                 srvBox.innerHTML += `<button class="srv-btn" onclick="loadSource(2)">Server 2</button>`;
             }
 
-            // Prev/Next buttons
             document.getElementById('prevBtn').disabled = (epIdx === 0);
             document.getElementById('nextBtn').disabled = (epIdx >= season.server1.length - 1);
 
-            // Mini Episode Grid
             const miniGrid = document.getElementById('miniGrid');
             miniGrid.innerHTML = season.server1.map((_, i) => `
                 <a href="player.html?id=${id}&s=${sIdx}&ep=${i}" class="ep-link ${i === epIdx ? 'active' : ''}">
@@ -130,24 +136,23 @@
         }
     }
 
-    // Smart Waiter (Data load hone tak rukega)
+    // Smart Waiting System
     let attempts = 0;
-    function initPlayer() {
+    const checkInterval = setInterval(() => {
         attempts++;
         if (typeof animeList !== 'undefined' && animeList.length > 0) {
             setupPlayer();
-        } else if (attempts < 50) {
-            setTimeout(initPlayer, 100);
-        } else {
-            document.getElementById('displayTitle').innerText = "Failed to load anime data.";
+            clearInterval(checkInterval);
+        } else if (attempts > 50) {
+            document.getElementById('displayTitle').innerText = "Failed to load video.";
+            clearInterval(checkInterval);
         }
-    }
+    }, 100);
 
     function goEp(step) {
-        window.location.href = `player.html?id=${id}&s=${sIdx}&ep=${epIdx + step}`;
+        const nextEp = epIdx + step;
+        window.location.href = `player.html?id=${id}&s=${sIdx}&ep=${nextEp}`;
     }
-
-    window.onload = initPlayer;
 </script>
 
 </body>
