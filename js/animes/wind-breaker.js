@@ -1,4 +1,4 @@
-const animeList = [
+animeList.push = [
     {
         id: "wind-breaker",
         title: "Wind Breaker (Hindi Dub)",
