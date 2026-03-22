@@ -45,11 +45,12 @@
     <script src="js/list.js"></script>
 
     <script>
+        // Sari anime files ko ek-ek karke load karna
         if (typeof myAnimes !== 'undefined' && myAnimes.length > 0) {
             myAnimes.forEach(name => {
                 let s = document.createElement('script');
                 s.src = `js/animes/${name}.js`;
-                s.async = false; // Sequence sahi rakhne ke liye
+                s.async = false; 
                 document.head.appendChild(s);
             });
         }
@@ -84,17 +85,26 @@
             render(filtered);
         }
 
-        // Smart Loader: Jab tak data mil na jaye check karte raho
+        // 🔥 NAYA SMART LOADER: Jab tak poori list load nahi hoti, wait karega
         let checkCount = 0;
+        const totalExpected = (typeof myAnimes !== 'undefined') ? myAnimes.length : 0;
+
         const checkData = setInterval(() => {
             checkCount++;
-            if (typeof animeList !== 'undefined' && animeList.length > 0) {
-                console.log("Animes Loaded:", animeList.length);
+            
+            // Sirf tab render karega jab animeList ki ginti myAnimes ke barabar ho jaye
+            if (typeof animeList !== 'undefined' && animeList.length >= totalExpected && totalExpected > 0) {
+                console.log("Success: All Animes Loaded!");
                 render(animeList);
-                clearInterval(checkData); // Data mil gaya, loop stop kar do
-            } else if (checkCount > 30) { 
-                // 3 second baad error
-                document.getElementById('animeGrid').innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:yellow;">Loading failed. Check js/list.js and anime files.</p>`;
+                clearInterval(checkData); 
+            } 
+            // Agar 5 second se zyada ho gaye aur kuch animes load ho chuke hain, toh unhe dikha do
+            else if (checkCount > 50) { 
+                if (typeof animeList !== 'undefined' && animeList.length > 0) {
+                    render(animeList);
+                } else {
+                    document.getElementById('animeGrid').innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:yellow;">Loading taking too long... Please refresh.</p>`;
+                }
                 clearInterval(checkData);
             }
         }, 100); 
