@@ -3,112 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viral Anime Hub | Home</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#ff0055">
+    <title>Viral Anime Player</title>
     <style>
-        :root { --main: #ff0055; --bg: #0b0e14; --card: #1c2129; --text: #fff; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; }
-        header { padding: 15px 5%; background: #000; border-bottom: 2px solid var(--main); display: flex; justify-content: space-between; align-items: center; position: sticky; top:0; z-index:100; }
-        .logo { font-size: 20px; font-weight: bold; color: var(--main); text-transform: uppercase; text-decoration: none; }
-        .search-box { padding: 8px 15px; border-radius: 20px; border: 1px solid #444; background: #222; color: #fff; width: 150px; outline: none; }
-        .container { padding: 20px 5%; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
-        .card { background: var(--card); border-radius: 10px; overflow: hidden; text-decoration: none; color: inherit; border: 1px solid #333; transition: 0.3s; position: relative; display: block; }
-        .card:hover { transform: translateY(-5px); border-color: var(--main); }
-        .card img { width: 100%; height: 230px; object-fit: cover; display: block; }
-        .card h3 { font-size: 13px; padding: 10px; margin: 0; text-align: center; height: 35px; overflow: hidden; }
-        @media (max-width: 600px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+        :root { --main: #ff0055; --bg: #0b0e14; --card: #1c2129; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; }
+        header { padding: 12px 5%; background: #000; border-bottom: 2px solid var(--main); display: flex; justify-content: space-between; align-items: center; }
+        .back-btn { text-decoration: none; color: white; background: var(--main); padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        .server-container { display: flex; gap: 8px; padding: 10px; background: #000; justify-content: center; flex-wrap: wrap; }
+        .srv-btn { padding: 8px 15px; background: #222; border: 1px solid #444; color: white; cursor: pointer; font-size: 12px; min-width: 80px; }
+        .srv-btn.active { background: #2e7d32; border-color: #4caf50; font-weight: bold; }
+        .video-wrapper { width: 100%; position: relative; padding-top: 56.25%; background: #000; }
+        iframe { position: absolute; top:0; left:0; width: 100%; height: 100%; border:none; }
+        .controls-bar { display: flex; justify-content: space-around; align-items: center; padding: 15px; background: #161b22; border-top: 1px solid #333; }
+        .nav-btn { background: none; border: none; color: white; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; opacity: 0.8; text-decoration: none; }
+        .nav-btn:hover { opacity: 1; color: var(--main); }
+        .nav-btn span { font-size: 10px; font-weight: bold; text-transform: uppercase; }
+        .nav-btn i { font-size: 18px; }
+        .nav-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+        .episode-section { padding: 20px 5%; min-height: 200px; }
+        .section-title { font-size: 14px; color: var(--main); font-weight: bold; margin-bottom: 10px; border-left: 3px solid var(--main); padding-left: 10px; }
+        .ep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(65px, 1fr)); gap: 8px; }
+        .ep-link { padding: 8px; background: var(--card); border: 1px solid #333; color: white; text-decoration: none; text-align: center; border-radius: 4px; font-size: 11px; }
+        .ep-link.active { border-color: var(--main); background: #2d131a; color: var(--main); }
+        footer { margin-top: 40px; padding: 30px 5%; text-align: center; border-top: 1px solid #333; background: #000; color: #8b949e; font-size: 14px; }
+        .footer-brand { color: var(--main); font-weight: bold; }
+        .disclaimer { margin-top: 10px; font-size: 12px; opacity: 0.7; line-height: 1.6; padding: 0 10px; }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <header>
-        <a href="index.html" class="logo">Viral Anime</a>
-        <input type="text" class="search-box" placeholder="Search..." id="search" onkeyup="search()">
-    </header>
+<header>
+    <div id="displayTitle" style="font-size: 13px; font-weight: 500;">Loading Data...</div>
+    <a href="index.html" class="back-btn">HOME</a>
+</header>
 
-    <div class="container">
-        <h2 style="font-size: 18px; border-left: 3px solid var(--main); padding-left: 10px; margin-bottom: 20px;">LATEST UPDATES</h2>
-        <div class="grid" id="animeGrid">
-            </div>
-    </div>
+<div class="server-container" id="srvBox"></div>
 
-    <footer style="margin-top: 40px; padding: 20px 0; text-align: center; border-top: 1px solid #333; background: #000; color: #8b949e; font-size: 14px;">
-        <p style="margin: 0;">&copy; 2024 - 2026 <span style="color: #ff0055; font-weight: bold;">Viral Anime </span>. All Rights Reserved.</p>
-        <p style="margin: 5px 0 0; font-size: 12px; opacity: 0.7; padding: 0 10px;">
-            Viral Anime does not store any files on own server. We only index links from third-party services.
-        </p>
-    </footer>
+<div class="video-wrapper">
+    <iframe id="playerFrame" src="" allowfullscreen></iframe>
+</div>
 
-    <script src="js/main_data.js"></script>
-    <script src="js/list.js"></script>
+<div class="controls-bar">
+    <button id="prevBtn" class="nav-btn" onclick="goEp(-1)">
+        <i class="fa-solid fa-backward-step"></i>
+        <span>PREV</span>
+    </button>
+    <a id="listBtn" href="#" class="nav-btn">
+        <i class="fa-solid fa-list-ul"></i>
+        <span>LIST</span>
+    </a>
+    <button id="nextBtn" class="nav-btn" onclick="goEp(1)">
+        <i class="fa-solid fa-forward-step"></i>
+        <span>NEXT</span>
+    </button>
+</div>
 
-    <script>
-        // Sari anime files ko ek-ek karke load karna
-        if (typeof myAnimes !== 'undefined' && myAnimes.length > 0) {
-            myAnimes.forEach(name => {
-                let s = document.createElement('script');
-                s.src = `js/animes/${name}.js`;
-                s.async = false; 
-                document.head.appendChild(s);
-            });
-        }
-    </script>
+<div class="episode-section">
+    <div class="section-title">Episodes in this Season:</div>
+    <div class="ep-grid" id="miniGrid"></div>
+</div>
 
-    <script>
-        // Cards render karne wala function
-        function render(list) {
-            const grid = document.getElementById('animeGrid');
-            if (!list || list.length === 0) {
-                grid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding:50px; opacity:0.5;">No results found...</p>`;
+<footer>
+    <p style="margin: 0;">&copy; 2024 - 2026 <span class="footer-brand">Viral Anime</span>. All Rights Reserved.</p>
+    <p class="disclaimer">Viral Anime does not store any files on own server. We only index links from third-party services.</p>
+</footer>
+
+<script src="js/main_data.js"></script>
+<script src="js/list.js"></script>
+
+<script>
+    // Animes load karne ka system
+    if (typeof myAnimes !== 'undefined' && myAnimes.length > 0) {
+        myAnimes.forEach(name => {
+            let s = document.createElement('script');
+            s.src = `js/animes/${name}.js`;
+            s.async = false; 
+            document.head.appendChild(s);
+        });
+    }
+</script>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    const sIdx = parseInt(params.get('s')) || 0;
+    const epIdx = parseInt(params.get('ep')) || 0;
+    let currentAnime = null;
+
+    function loadSource(srvNum) {
+        if(!currentAnime) return;
+        const season = currentAnime.seasons[sIdx];
+        if(!season) return;
+
+        const videoUrl = (srvNum === 2 && season.server2 && season.server2.length > 0) 
+            ? season.server2[epIdx] 
+            : season.server1[epIdx];
+        
+        document.getElementById('playerFrame').src = videoUrl;
+        
+        const btns = document.querySelectorAll('.srv-btn');
+        btns.forEach((b, i) => b.classList.toggle('active', i === (srvNum - 1)));
+    }
+
+    function setupPlayer() {
+        // Interval ne currentAnime dhoond liya hai, bas ab display karna hai
+        if (currentAnime) {
+            const season = currentAnime.seasons[sIdx];
+            if(!season) {
+                document.getElementById('displayTitle').innerText = "Season not found!";
                 return;
             }
 
-            grid.innerHTML = list.map(a => `
-                <a href="details.html?id=${a.id}" class="card">
-                    <img src="${a.poster}" alt="${a.title}" loading="lazy">
-                    <div style="padding:10px;">
-                        <h3 style="margin:0; font-size:14px;">${a.title}</h3>
-                        <p style="margin:5px 0 0; font-size:12px; color:#ff0055;">${a.year || '2024'}</p>
-                    </div>
+            document.getElementById('displayTitle').innerText = `${currentAnime.title} - S${sIdx+1} E${epIdx+1}`;
+            document.getElementById('listBtn').href = `details.html?id=${id}`;
+
+            const srvBox = document.getElementById('srvBox');
+            srvBox.innerHTML = ""; 
+            if (season.server1 && season.server1.length > 0) {
+                srvBox.innerHTML += `<button class="srv-btn active" onclick="loadSource(1)">Server 1</button>`;
+            }
+            if (season.server2 && season.server2.length > 0) {
+                srvBox.innerHTML += `<button class="srv-btn" onclick="loadSource(2)">Server 2</button>`;
+            }
+
+            document.getElementById('prevBtn').disabled = (epIdx === 0);
+            document.getElementById('nextBtn').disabled = (epIdx >= season.server1.length - 1);
+
+            const miniGrid = document.getElementById('miniGrid');
+            miniGrid.innerHTML = season.server1.map((_, i) => `
+                <a href="player.html?id=${id}&s=${sIdx}&ep=${i}" class="ep-link ${i === epIdx ? 'active' : ''}">
+                    Ep ${i + 1}
                 </a>
             `).join('');
+
+            loadSource(1);
+        }
+    }
+
+    // 🔥 SMART WAITING SYSTEM (REFIXED)
+    let attempts = 0;
+    const checkInterval = setInterval(() => {
+        attempts++;
+        
+        // Sirf ye nahi check kar rahe ki list khali hai ya nahi,
+        // Hum check kar rahe hain ki kya HAMARA anime load hua ya nahi.
+        if (typeof animeList !== 'undefined') {
+            currentAnime = animeList.find(a => a.id === id);
         }
 
-        // Search logic
-        function search() {
-            const query = document.getElementById('search').value.toLowerCase();
-            const filtered = animeList.filter(item => 
-                item.title.toLowerCase().includes(query)
-            );
-            render(filtered);
+        if (currentAnime) {
+            setupPlayer();
+            clearInterval(checkInterval);
+        } else if (attempts > 80) { // 8 seconds tak wait karega
+            document.getElementById('displayTitle').innerText = "Anime not found! Please check ID or Refresh.";
+            clearInterval(checkInterval);
         }
+    }, 100);
 
-        // 🔥 NAYA SMART LOADER: Jab tak poori list load nahi hoti, wait karega
-        let checkCount = 0;
-        const totalExpected = (typeof myAnimes !== 'undefined') ? myAnimes.length : 0;
-
-        const checkData = setInterval(() => {
-            checkCount++;
-            
-            // Sirf tab render karega jab animeList ki ginti myAnimes ke barabar ho jaye
-            if (typeof animeList !== 'undefined' && animeList.length >= totalExpected && totalExpected > 0) {
-                console.log("Success: All Animes Loaded!");
-                render(animeList);
-                clearInterval(checkData); 
-            } 
-            // Agar 5 second se zyada ho gaye aur kuch animes load ho chuke hain, toh unhe dikha do
-            else if (checkCount > 50) { 
-                if (typeof animeList !== 'undefined' && animeList.length > 0) {
-                    render(animeList);
-                } else {
-                    document.getElementById('animeGrid').innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:yellow;">Loading taking too long... Please refresh.</p>`;
-                }
-                clearInterval(checkData);
-            }
-        }, 100); 
-    </script>
+    function goEp(step) {
+        const nextEp = epIdx + step;
+        // Navigation se pehle current URL parameters maintain rakhein
+        window.location.href = `player.html?id=${id}&s=${sIdx}&ep=${nextEp}`;
+    }
+</script>
 
 </body>
 </html>
