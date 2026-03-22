@@ -33,7 +33,7 @@
 
         .desc { font-size: 13px; line-height: 1.5; color: #ccc; background: #161b22; padding: 12px; border-radius: 10px; text-align: left; border-left: 3px solid var(--main); }
 
-        /* 🔥 SEASON NAVIGATION (Auto-Wrap) */
+        /* 🔥 SEASON NAVIGATION (Auto-Wrap - Next Line) */
         .season-nav-container { 
             position: sticky; 
             top: 68px; 
@@ -62,10 +62,10 @@
             font-weight: bold; 
             transition: 0.2s;
         }
-        .nav-btn:hover { border-color: var(--main); }
+        .nav-btn:hover { border-color: var(--main); color: var(--main); }
 
         /* Season Sections */
-        .season-section { padding-top: 115px; margin-top: -95px; } 
+        .season-section { padding-top: 120px; margin-top: -100px; } 
         .season-title { font-size: 18px; color: #fff; margin-bottom: 12px; padding-left: 10px; border-left: 4px solid var(--main); }
         
         .ep-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 40px; }
@@ -114,6 +114,7 @@
 <script src="js/list.js"></script>
 
 <script>
+    // 1. Load All Anime JS Files
     if (typeof myAnimes !== 'undefined' && myAnimes.length > 0) {
         myAnimes.forEach(name => {
             let s = document.createElement('script');
@@ -123,6 +124,7 @@
         });
     }
 
+    // 🔥 SMOOTH SCROLL FUNCTION
     function scrollToSeason(id) {
         const element = document.getElementById(id);
         const headerOffset = 145; 
@@ -132,71 +134,15 @@
         window.scrollTo({ top: offsetPosition, behavior: "smooth" });
     }
 
+    // 🔥 SETUP PAGE DATA
     function setupPage() {
         const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
+        
+        if (typeof animeList === 'undefined' || animeList.length === 0) return;
+
         const anime = animeList.find(a => a.id === id);
 
         if (anime) {
             document.getElementById('loader').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'block';
-
-            // 🔥 SEO UPDATE: Ye Google ke liye title change karega
-            document.getElementById('pageTitle').innerText = anime.title + " | Viral Anime Hub";
-
-            document.getElementById('title').innerText = anime.title;
-            document.getElementById('poster').src = anime.poster;
-            document.getElementById('desc').innerText = anime.description || "Watch this amazing anime online for free.";
-            
-            // 🔥 GENRE UPDATE
-            document.getElementById('genre').innerText = (anime.genres && anime.genres.length > 0) ? anime.genres.join(' • ') : "Action • Adventure";
-
-            document.getElementById('meta').innerHTML = `
-                <span class="badge">Year: ${anime.year || '2024'}</span>
-                <span class="badge">Rating: ⭐ ${anime.rating || '8.5'}</span>
-            `;
-
-            const nav = document.getElementById('seasonNav');
-            const container = document.getElementById('seasonsContainer');
-            
-            nav.innerHTML = "";
-            container.innerHTML = "";
-
-            if (anime.seasons) {
-                anime.seasons.forEach((season, sIdx) => {
-                    const sectionId = `season-section-${sIdx}`;
-                    nav.innerHTML += `<button class="nav-btn" onclick="scrollToSeason('${sectionId}')">${season.name}</button>`;
-
-                    const seasonHtml = `
-                        <div class="season-section" id="${sectionId}">
-                            <h3 class="season-title">${season.name}</h3>
-                            <div class="ep-list">
-                                ${season.server1.map((url, eIdx) => `
-                                    <a href="player.html?id=${id}&s=${sIdx}&ep=${eIdx}" class="ep-card">
-                                        <span><strong>Ep ${eIdx + 1}</strong></span>
-                                        <span class="play-tag">WATCH</span>
-                                    </a>
-                                `).join('')}
-                            </div>
-                        </div>
-                    `;
-                    container.innerHTML += seasonHtml;
-                });
-            }
-        }
-    }
-
-    let checkCount = 0;
-    const waitData = setInterval(() => {
-        checkCount++;
-        if (typeof animeList !== 'undefined' && animeList.length > 0) {
-            setupPage();
-            clearInterval(waitData);
-        } else if (checkCount > 60) {
-            clearInterval(waitData);
-        }
-    }, 100);
-</script>
-
-</body>
-</html>
+            document.getElementById('mainContent').style.display = 'block
