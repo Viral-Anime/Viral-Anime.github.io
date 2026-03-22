@@ -4,5 +4,5 @@ const myAnimes = [
     "demon-slayer",
     "kaiju-no-8",
     "naruto-shippuden",
-    "wind-breker"
+    "wind-breaker"
 ];
