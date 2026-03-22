@@ -1,5 +1,5 @@
 animeList.push({
-    id: "naruto-shippuden-part-1",
+    id: "naruto-shippuden",
     title: "Naruto Shippuden (Hindi Dub)",
     poster: "https://image.tmdb.org/t/p/w500/kVneSTKi8SnuXBrO9P1S6gOCjUv.jpg",
     year: "2007",
