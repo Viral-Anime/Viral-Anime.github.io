@@ -3,76 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title id="pageTitle">Loading Anime... | Viral Anime Hub</title>
-    
+    <title id="pageTitle">Loading... | Viral Anime Hub</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ff0055">
-    
     <style>
-        :root { --main: #ff0055; --bg: #0b0e14; --card: #1c2129; --accent: #00d4ff; }
+        :root { --main: #ff0055; --bg: #0b0e14; --card: #1c2129; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; scroll-behavior: smooth; }
-        
         header { padding: 15px 5%; background: #000; border-bottom: 2px solid var(--main); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .logo { font-weight: bold; color: var(--main); font-size: 18px; text-decoration: none; }
         .back-btn { background: var(--main); color: white; border: none; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; font-weight: bold; }
-        
         .container { padding: 20px 5%; max-width: 900px; margin: auto; }
-        
-        /* Hero Card */
         .hero-card { background: var(--card); border-radius: 20px; padding: 25px; border: 1px solid #333; text-align: center; margin-bottom: 20px; }
         .hero-card img { width: 150px; height: 210px; border-radius: 12px; margin-bottom: 15px; object-fit: cover; border: 2px solid #444; }
         .hero-card h1 { font-size: 24px; color: var(--main); margin-bottom: 10px; }
-        
         .meta-info { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
         .badge { background: rgba(255,0,85,0.15); border: 1px solid var(--main); padding: 4px 12px; border-radius: 15px; font-size: 11px; color: var(--main); }
-        
-        /* Genre Section */
         .genre-box { font-size: 12px; color: #00d4ff; margin-bottom: 15px; font-weight: bold; text-transform: uppercase; }
-
         .desc { font-size: 13px; line-height: 1.5; color: #ccc; background: #161b22; padding: 12px; border-radius: 10px; text-align: left; border-left: 3px solid var(--main); }
-
-        /* 🔥 SEASON NAVIGATION (Auto-Wrap - Next Line) */
-        .season-nav-container { 
-            position: sticky; 
-            top: 68px; 
-            background: var(--bg); 
-            z-index: 95; 
-            padding: 10px 5%;
-            margin: 0 -5%; 
-            border-bottom: 1px solid #222;
-        }
-        
-        .season-nav { 
-            display: flex; 
-            gap: 8px; 
-            flex-wrap: wrap; /* Dusri line mein aane ke liye */
-            justify-content: flex-start; 
-        }
-
-        .nav-btn { 
-            background: #222; 
-            border: 1px solid #444; 
-            color: white; 
-            padding: 6px 12px; 
-            border-radius: 10px; 
-            cursor: pointer; 
-            font-size: 11px; 
-            font-weight: bold; 
-            transition: 0.2s;
-        }
-        .nav-btn:hover { border-color: var(--main); color: var(--main); }
-
-        /* Season Sections */
+        .season-nav-container { position: sticky; top: 68px; background: var(--bg); z-index: 95; padding: 10px 5%; margin: 0 -5%; border-bottom: 1px solid #222; }
+        .season-nav { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-start; }
+        .nav-btn { background: #222; border: 1px solid #444; color: white; padding: 6px 12px; border-radius: 10px; cursor: pointer; font-size: 11px; font-weight: bold; }
         .season-section { padding-top: 120px; margin-top: -100px; } 
         .season-title { font-size: 18px; color: #fff; margin-bottom: 12px; padding-left: 10px; border-left: 4px solid var(--main); }
-        
         .ep-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 40px; }
         .ep-card { background: #161b22; padding: 12px 18px; border-radius: 10px; text-decoration: none; color: white; display: flex; justify-content: space-between; align-items: center; border: 1px solid #222; }
-        .ep-card:hover { border-color: var(--main); background: #1c2129; }
         .play-tag { background: var(--main); font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
-
         footer { margin-top: 50px; padding: 30px; text-align: center; border-top: 1px solid #333; font-size: 12px; color: #888; }
     </style>
 </head>
@@ -85,64 +41,101 @@
 </header>
 
 <div class="container" id="loader">
-    <h2 style="text-align: center; margin-top: 50px; opacity: 0.5;">Loading Anime Details...</h2>
+    <h2 style="text-align: center; margin-top: 50px;">Loading Data...</h2>
 </div>
 
 <div class="container" id="mainContent" style="display: none;">
     <div class="hero-card">
         <img id="poster" src="" alt="Poster">
         <h1 id="title">Anime Title</h1>
-        
-        <div class="genre-box" id="genre">Loading Genres...</div>
-
+        <div class="genre-box" id="genre">Genre Loading...</div>
         <div class="meta-info" id="meta"></div>
         <p class="desc" id="desc"></p>
     </div>
-
     <div class="season-nav-container">
         <div class="season-nav" id="seasonNav"></div>
     </div>
-
     <div id="seasonsContainer"></div>
 </div>
 
-<footer>
-    <p>&copy; 2024 - 2026 <span style="color:var(--main)">Viral Anime Hub</span></p>
-</footer>
+<footer><p>&copy; 2024 Viral Anime Hub</p></footer>
 
 <script src="js/main_data.js"></script>
 <script src="js/list.js"></script>
 
 <script>
-    // 1. Load All Anime JS Files
-    if (typeof myAnimes !== 'undefined' && myAnimes.length > 0) {
+    // 1. Loading anime JS files with better path check
+    if (typeof myAnimes !== 'undefined' && Array.isArray(myAnimes)) {
         myAnimes.forEach(name => {
             let s = document.createElement('script');
-            s.src = `js/animes/${name}.js`;
+            s.src = `js/animes/${name}.js`; // Check karein ki folder 'js/animes/' hi hai
             s.async = false; 
             document.head.appendChild(s);
         });
     }
 
-    // 🔥 SMOOTH SCROLL FUNCTION
     function scrollToSeason(id) {
         const element = document.getElementById(id);
-        const headerOffset = 145; 
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+        window.scrollTo({ top: element.offsetTop - 145, behavior: "smooth" });
     }
 
-    // 🔥 SETUP PAGE DATA
     function setupPage() {
         const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
         
-        if (typeof animeList === 'undefined' || animeList.length === 0) return;
+        // Agar animeList load nahi hui toh reload try karein
+        if (typeof animeList === 'undefined') return;
 
         const anime = animeList.find(a => a.id === id);
 
         if (anime) {
             document.getElementById('loader').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'block
+            document.getElementById('mainContent').style.display = 'block';
+
+            document.getElementById('pageTitle').innerText = anime.title + " | Viral Anime";
+            document.getElementById('title').innerText = anime.title;
+            document.getElementById('poster').src = anime.poster;
+            document.getElementById('desc').innerText = anime.description || "Watch free anime episodes.";
+            
+            // Genre Fix
+            const g = document.getElementById('genre');
+            g.innerText = (anime.genres && Array.isArray(anime.genres)) ? anime.genres.join(' • ') : (anime.genre || "Action • Adventure");
+
+            document.getElementById('meta').innerHTML = `<span class="badge">Year: ${anime.year || '2024'}</span><span class="badge">⭐ ${anime.rating || '8.5'}</span>`;
+
+            const nav = document.getElementById('seasonNav');
+            const container = document.getElementById('seasonsContainer');
+            nav.innerHTML = ""; container.innerHTML = "";
+
+            if (anime.seasons) {
+                anime.seasons.forEach((season, sIdx) => {
+                    const sid = `s-${sIdx}`;
+                    nav.innerHTML += `<button class="nav-btn" onclick="scrollToSeason('${sid}')">${season.name}</button>`;
+                    container.innerHTML += `
+                        <div class="season-section" id="${sid}">
+                            <h3 class="season-title">${season.name}</h3>
+                            <div class="ep-list">
+                                ${season.server1.map((url, eIdx) => `
+                                    <a href="player.html?id=${id}&s=${sIdx}&ep=${eIdx}" class="ep-card">
+                                        <span><strong>Ep ${eIdx + 1}</strong></span>
+                                        <span class="play-tag">WATCH</span>
+                                    </a>`).join('')}
+                            </div>
+                        </div>`;
+                });
+            }
+        } else {
+            document.getElementById('loader').innerHTML = "<h2>Anime Not Found! Check URL.</h2>";
+        }
+    }
+
+    // Har 500ms par check karega jab tak data load na ho jaye
+    const wait = setInterval(() => {
+        if (typeof animeList !== 'undefined' && animeList.length > 0) {
+            setupPage();
+            clearInterval(wait);
+        }
+    }, 500);
+</script>
+</body>
+</html>
