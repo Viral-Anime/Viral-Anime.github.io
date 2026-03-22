@@ -10,7 +10,7 @@
     <style>
         :root { --main: #ff0055; --bg: #0b0e14; --card: #1c2129; --accent: #00d4ff; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; scroll-behavior: smooth; } /* Smooth scroll enable kiya */
         
         header { padding: 15px 5%; background: #000; border-bottom: 2px solid var(--main); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .logo { font-weight: bold; color: var(--main); font-size: 18px; text-decoration: none; }
@@ -20,21 +20,26 @@
         
         /* Hero Card */
         .hero-card { background: var(--card); border-radius: 20px; padding: 25px; border: 1px solid #333; text-align: center; margin-bottom: 30px; }
-        .hero-card img { width: 160px; height: 230px; border-radius: 12px; margin-bottom: 15px; object-fit: cover; border: 2px solid #444; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .hero-card img { width: 160px; height: 230px; border-radius: 12px; margin-bottom: 15px; object-fit: cover; border: 2px solid #444; }
         .hero-card h1 { font-size: 26px; color: var(--main); margin-bottom: 10px; }
         
         .meta-info { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
         .badge { background: rgba(255,0,85,0.15); border: 1px solid var(--main); padding: 4px 12px; border-radius: 15px; font-size: 12px; color: var(--main); }
-
         .desc { font-size: 14px; line-height: 1.6; color: #ccc; background: #161b22; padding: 15px; border-radius: 10px; text-align: left; border-left: 3px solid var(--main); margin-top: 15px; }
 
-        /* Season Sections (Scroll Version) */
-        .season-wrapper { margin-top: 40px; }
-        .season-title { font-size: 20px; color: #fff; margin-bottom: 15px; padding-left: 12px; border-left: 4px solid var(--main); text-transform: uppercase; letter-spacing: 1px; }
+        /* 🔥 STICKY SEASON NAVIGATION */
+        .season-nav { display: flex; gap: 10px; overflow-x: auto; padding: 15px 0; margin-bottom: 20px; position: sticky; top: 68px; background: var(--bg); z-index: 90; border-bottom: 1px solid #222; scrollbar-width: none; }
+        .season-nav::-webkit-scrollbar { display: none; } /* Hide scrollbar for Chrome/Safari */
+        .nav-btn { background: #222; border: 1px solid #444; color: white; padding: 8px 18px; border-radius: 20px; cursor: pointer; white-space: nowrap; font-size: 13px; font-weight: bold; transition: 0.3s; }
+        .nav-btn:hover { border-color: var(--main); color: var(--main); }
+
+        /* Season Sections */
+        .season-section { margin-top: 20px; padding-top: 80px; margin-top: -60px; } /* Anchor offset fixing */
+        .season-title { font-size: 20px; color: #fff; margin-bottom: 15px; padding-left: 12px; border-left: 4px solid var(--main); text-transform: uppercase; }
         
-        .ep-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 35px; }
+        .ep-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 50px; }
         .ep-card { background: #161b22; padding: 15px 20px; border-radius: 10px; text-decoration: none; color: white; display: flex; justify-content: space-between; align-items: center; border: 1px solid #222; transition: 0.2s; }
-        .ep-card:hover { border-color: var(--main); transform: translateX(5px); background: #1c2129; }
+        .ep-card:hover { border-color: var(--main); background: #1c2129; }
         .play-tag { background: var(--main); font-size: 11px; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
 
         footer { margin-top: 50px; padding: 30px; text-align: center; border-top: 1px solid #333; font-size: 13px; color: #888; }
@@ -49,7 +54,7 @@
 </header>
 
 <div class="container" id="loader">
-    <h2 style="text-align: center; margin-top: 50px; opacity: 0.6;">Crunching Data... ⏳</h2>
+    <h2 style="text-align: center; margin-top: 50px; opacity: 0.6;">Loading Seasons... ⏳</h2>
 </div>
 
 <div class="container" id="mainContent" style="display: none;">
@@ -60,7 +65,9 @@
         <p class="desc" id="desc"></p>
     </div>
 
-    <div id="seasonsContainer" class="season-wrapper"></div>
+    <div class="season-nav" id="seasonNav"></div>
+
+    <div id="seasonsContainer"></div>
 </div>
 
 <footer>
@@ -71,13 +78,26 @@
 <script src="js/list.js"></script>
 
 <script>
-    // 1. Scripts Load Karo
+    // 1. Scripts Loading
     if (typeof myAnimes !== 'undefined' && myAnimes.length > 0) {
         myAnimes.forEach(name => {
             let s = document.createElement('script');
             s.src = `js/animes/${name}.js`;
             s.async = false; 
             document.head.appendChild(s);
+        });
+    }
+
+    // 🔥 SCROLL TO SEASON FUNCTION
+    function scrollToSeason(id) {
+        const element = document.getElementById(id);
+        const headerOffset = 130; // Header + Nav ki height adjust karne ke liye
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
         });
     }
 
@@ -90,26 +110,27 @@
             document.getElementById('loader').style.display = 'none';
             document.getElementById('mainContent').style.display = 'block';
 
-            // Details Fill Karo
-            document.getElementById('pageTitle').innerText = anime.title + " | Viral Anime";
             document.getElementById('title').innerText = anime.title;
             document.getElementById('poster').src = anime.poster;
-            document.getElementById('desc').innerText = anime.description || "Description coming soon...";
-            
-            document.getElementById('meta').innerHTML = `
-                <span class="badge">${anime.year || '2024'}</span>
-                <span class="badge">⭐ ${anime.rating || 'N/A'}</span>
-                <span class="badge">Hindi/Eng</span>
-            `;
+            document.getElementById('desc').innerText = anime.description || "No description available.";
+            document.getElementById('meta').innerHTML = `<span class="badge">${anime.year || '2024'}</span><span class="badge">⭐ ${anime.rating || 'N/A'}</span>`;
 
-            // Seasons Render Karo (Scroll Style)
+            const nav = document.getElementById('seasonNav');
             const container = document.getElementById('seasonsContainer');
-            container.innerHTML = ""; // Clear purana kachra
+            
+            nav.innerHTML = "";
+            container.innerHTML = "";
 
             if (anime.seasons && anime.seasons.length > 0) {
                 anime.seasons.forEach((season, sIdx) => {
+                    const sectionId = `season-section-${sIdx}`;
+                    
+                    // Create Nav Button
+                    nav.innerHTML += `<button class="nav-btn" onclick="scrollToSeason('${sectionId}')">${season.name}</button>`;
+
+                    // Create Season Section
                     const seasonHtml = `
-                        <div class="season-section">
+                        <div class="season-section" id="${sectionId}">
                             <h3 class="season-title">${season.name}</h3>
                             <div class="ep-list">
                                 ${season.server1.map((url, eIdx) => `
@@ -123,15 +144,11 @@
                     `;
                     container.innerHTML += seasonHtml;
                 });
-            } else {
-                container.innerHTML = "<p style='text-align:center; opacity:0.5;'>Episodes are being uploaded...</p>";
             }
-        } else {
-            document.getElementById('loader').innerHTML = "<h2>Anime Not Found! 😢</h2>";
         }
     }
 
-    // Smart Waiter
+    // Smart Waiting Logic
     let checkCount = 0;
     const waitData = setInterval(() => {
         checkCount++;
@@ -139,7 +156,6 @@
             setupPage();
             clearInterval(waitData);
         } else if (checkCount > 60) {
-            document.getElementById('loader').innerHTML = "<h2>Loading failed. Refresh!</h2>";
             clearInterval(waitData);
         }
     }, 100);
