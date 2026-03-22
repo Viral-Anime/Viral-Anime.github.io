@@ -27,47 +27,39 @@
         .badge { background: rgba(255,0,85,0.15); border: 1px solid var(--main); padding: 4px 12px; border-radius: 15px; font-size: 11px; color: var(--main); }
         .desc { font-size: 13px; line-height: 1.5; color: #ccc; background: #161b22; padding: 12px; border-radius: 10px; text-align: left; border-left: 3px solid var(--main); }
 
-        /* 🔥 FIXED SEASON NAVIGATION (Smooth Horizontal Scroll) */
+        /* 🔥 UPDATED SEASON NAVIGATION (Auto-Wrap to Next Line) */
         .season-nav-container { 
             position: sticky; 
             top: 68px; 
             background: var(--bg); 
             z-index: 95; 
             padding: 10px 5%;
-            margin: 0 -5.5%; /* Screen edge tak touch karne ke liye */
+            margin: 0 -5%; 
             border-bottom: 1px solid #222;
         }
         
         .season-nav { 
             display: flex; 
-            gap: 10px; 
-            overflow-x: auto; /* Side scroll enable */
-            white-space: nowrap; 
-            padding-bottom: 5px;
-            -webkit-overflow-scrolling: touch; /* Smooth mobile scroll */
+            gap: 8px; 
+            flex-wrap: wrap; /* Isse buttons next line mein aa jayenge */
+            justify-content: flex-start; /* Buttons ko left se align rakhega */
         }
-
-        /* Hide Scrollbar for Chrome, Safari and Opera */
-        .season-nav::-webkit-scrollbar { display: none; }
-        /* Hide Scrollbar for IE, Edge and Firefox */
-        .season-nav { -ms-overflow-style: none; scrollbar-width: none; }
 
         .nav-btn { 
             background: #222; 
             border: 1px solid #444; 
             color: white; 
-            padding: 7px 15px; 
-            border-radius: 15px; 
+            padding: 6px 12px; 
+            border-radius: 12px; 
             cursor: pointer; 
             font-size: 12px; 
             font-weight: bold; 
-            transition: 0.3s;
-            flex-shrink: 0; /* Button ko pichakne se rokta hai */
+            transition: 0.2s;
         }
         .nav-btn:active { background: var(--main); transform: scale(0.95); }
 
         /* Season Sections */
-        .season-section { padding-top: 100px; margin-top: -80px; } 
+        .season-section { padding-top: 110px; margin-top: -90px; } 
         .season-title { font-size: 18px; color: #fff; margin-bottom: 12px; padding-left: 10px; border-left: 4px solid var(--main); }
         
         .ep-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 40px; }
@@ -124,7 +116,7 @@
 
     function scrollToSeason(id) {
         const element = document.getElementById(id);
-        const headerOffset = 130; 
+        const headerOffset = 140; 
         const elementPosition = element.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
