@@ -10,7 +10,7 @@
     <style>
         :root { --main: #ff0055; --bg: #0b0e14; --card: #1c2129; --accent: #00d4ff; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; scroll-behavior: smooth; } /* Smooth scroll enable kiya */
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; scroll-behavior: smooth; }
         
         header { padding: 15px 5%; background: #000; border-bottom: 2px solid var(--main); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .logo { font-weight: bold; color: var(--main); font-size: 18px; text-decoration: none; }
@@ -19,30 +19,63 @@
         .container { padding: 20px 5%; max-width: 900px; margin: auto; }
         
         /* Hero Card */
-        .hero-card { background: var(--card); border-radius: 20px; padding: 25px; border: 1px solid #333; text-align: center; margin-bottom: 30px; }
-        .hero-card img { width: 160px; height: 230px; border-radius: 12px; margin-bottom: 15px; object-fit: cover; border: 2px solid #444; }
-        .hero-card h1 { font-size: 26px; color: var(--main); margin-bottom: 10px; }
+        .hero-card { background: var(--card); border-radius: 20px; padding: 25px; border: 1px solid #333; text-align: center; margin-bottom: 20px; }
+        .hero-card img { width: 150px; height: 210px; border-radius: 12px; margin-bottom: 15px; object-fit: cover; border: 2px solid #444; }
+        .hero-card h1 { font-size: 24px; color: var(--main); margin-bottom: 10px; }
         
-        .meta-info { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
-        .badge { background: rgba(255,0,85,0.15); border: 1px solid var(--main); padding: 4px 12px; border-radius: 15px; font-size: 12px; color: var(--main); }
-        .desc { font-size: 14px; line-height: 1.6; color: #ccc; background: #161b22; padding: 15px; border-radius: 10px; text-align: left; border-left: 3px solid var(--main); margin-top: 15px; }
+        .meta-info { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
+        .badge { background: rgba(255,0,85,0.15); border: 1px solid var(--main); padding: 4px 12px; border-radius: 15px; font-size: 11px; color: var(--main); }
+        .desc { font-size: 13px; line-height: 1.5; color: #ccc; background: #161b22; padding: 12px; border-radius: 10px; text-align: left; border-left: 3px solid var(--main); }
 
-        /* 🔥 STICKY SEASON NAVIGATION */
-        .season-nav { display: flex; gap: 10px; overflow-x: auto; padding: 15px 0; margin-bottom: 20px; position: sticky; top: 68px; background: var(--bg); z-index: 90; border-bottom: 1px solid #222; scrollbar-width: none; }
-        .season-nav::-webkit-scrollbar { display: none; } /* Hide scrollbar for Chrome/Safari */
-        .nav-btn { background: #222; border: 1px solid #444; color: white; padding: 8px 18px; border-radius: 20px; cursor: pointer; white-space: nowrap; font-size: 13px; font-weight: bold; transition: 0.3s; }
-        .nav-btn:hover { border-color: var(--main); color: var(--main); }
+        /* 🔥 FIXED SEASON NAVIGATION (Smooth Horizontal Scroll) */
+        .season-nav-container { 
+            position: sticky; 
+            top: 68px; 
+            background: var(--bg); 
+            z-index: 95; 
+            padding: 10px 5%;
+            margin: 0 -5.5%; /* Screen edge tak touch karne ke liye */
+            border-bottom: 1px solid #222;
+        }
+        
+        .season-nav { 
+            display: flex; 
+            gap: 10px; 
+            overflow-x: auto; /* Side scroll enable */
+            white-space: nowrap; 
+            padding-bottom: 5px;
+            -webkit-overflow-scrolling: touch; /* Smooth mobile scroll */
+        }
+
+        /* Hide Scrollbar for Chrome, Safari and Opera */
+        .season-nav::-webkit-scrollbar { display: none; }
+        /* Hide Scrollbar for IE, Edge and Firefox */
+        .season-nav { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .nav-btn { 
+            background: #222; 
+            border: 1px solid #444; 
+            color: white; 
+            padding: 7px 15px; 
+            border-radius: 15px; 
+            cursor: pointer; 
+            font-size: 12px; 
+            font-weight: bold; 
+            transition: 0.3s;
+            flex-shrink: 0; /* Button ko pichakne se rokta hai */
+        }
+        .nav-btn:active { background: var(--main); transform: scale(0.95); }
 
         /* Season Sections */
-        .season-section { margin-top: 20px; padding-top: 80px; margin-top: -60px; } /* Anchor offset fixing */
-        .season-title { font-size: 20px; color: #fff; margin-bottom: 15px; padding-left: 12px; border-left: 4px solid var(--main); text-transform: uppercase; }
+        .season-section { padding-top: 100px; margin-top: -80px; } 
+        .season-title { font-size: 18px; color: #fff; margin-bottom: 12px; padding-left: 10px; border-left: 4px solid var(--main); }
         
-        .ep-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 50px; }
-        .ep-card { background: #161b22; padding: 15px 20px; border-radius: 10px; text-decoration: none; color: white; display: flex; justify-content: space-between; align-items: center; border: 1px solid #222; transition: 0.2s; }
+        .ep-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 40px; }
+        .ep-card { background: #161b22; padding: 12px 18px; border-radius: 10px; text-decoration: none; color: white; display: flex; justify-content: space-between; align-items: center; border: 1px solid #222; }
         .ep-card:hover { border-color: var(--main); background: #1c2129; }
-        .play-tag { background: var(--main); font-size: 11px; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
+        .play-tag { background: var(--main); font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
 
-        footer { margin-top: 50px; padding: 30px; text-align: center; border-top: 1px solid #333; font-size: 13px; color: #888; }
+        footer { margin-top: 50px; padding: 30px; text-align: center; border-top: 1px solid #333; font-size: 12px; color: #888; }
     </style>
 </head>
 <body>
@@ -54,7 +87,7 @@
 </header>
 
 <div class="container" id="loader">
-    <h2 style="text-align: center; margin-top: 50px; opacity: 0.6;">Loading Seasons... ⏳</h2>
+    <h2 style="text-align: center; margin-top: 50px; opacity: 0.6;">Loading Seasons...</h2>
 </div>
 
 <div class="container" id="mainContent" style="display: none;">
@@ -65,7 +98,9 @@
         <p class="desc" id="desc"></p>
     </div>
 
-    <div class="season-nav" id="seasonNav"></div>
+    <div class="season-nav-container">
+        <div class="season-nav" id="seasonNav"></div>
+    </div>
 
     <div id="seasonsContainer"></div>
 </div>
@@ -78,7 +113,6 @@
 <script src="js/list.js"></script>
 
 <script>
-    // 1. Scripts Loading
     if (typeof myAnimes !== 'undefined' && myAnimes.length > 0) {
         myAnimes.forEach(name => {
             let s = document.createElement('script');
@@ -88,10 +122,9 @@
         });
     }
 
-    // 🔥 SCROLL TO SEASON FUNCTION
     function scrollToSeason(id) {
         const element = document.getElementById(id);
-        const headerOffset = 130; // Header + Nav ki height adjust karne ke liye
+        const headerOffset = 130; 
         const elementPosition = element.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
@@ -112,8 +145,8 @@
 
             document.getElementById('title').innerText = anime.title;
             document.getElementById('poster').src = anime.poster;
-            document.getElementById('desc').innerText = anime.description || "No description available.";
-            document.getElementById('meta').innerHTML = `<span class="badge">${anime.year || '2024'}</span><span class="badge">⭐ ${anime.rating || 'N/A'}</span>`;
+            document.getElementById('desc').innerText = anime.description || "Description coming soon...";
+            document.getElementById('meta').innerHTML = `<span class="badge">${anime.year || '2024'}</span><span class="badge">⭐ ${anime.rating || '8.5'}</span>`;
 
             const nav = document.getElementById('seasonNav');
             const container = document.getElementById('seasonsContainer');
@@ -124,19 +157,16 @@
             if (anime.seasons && anime.seasons.length > 0) {
                 anime.seasons.forEach((season, sIdx) => {
                     const sectionId = `season-section-${sIdx}`;
-                    
-                    // Create Nav Button
                     nav.innerHTML += `<button class="nav-btn" onclick="scrollToSeason('${sectionId}')">${season.name}</button>`;
 
-                    // Create Season Section
                     const seasonHtml = `
                         <div class="season-section" id="${sectionId}">
                             <h3 class="season-title">${season.name}</h3>
                             <div class="ep-list">
                                 ${season.server1.map((url, eIdx) => `
                                     <a href="player.html?id=${id}&s=${sIdx}&ep=${eIdx}" class="ep-card">
-                                        <span><strong>Episode ${eIdx + 1}</strong></span>
-                                        <span class="play-tag">PLAY</span>
+                                        <span><strong>Ep ${eIdx + 1}</strong> - HD</span>
+                                        <span class="play-tag">WATCH</span>
                                     </a>
                                 `).join('')}
                             </div>
@@ -148,7 +178,6 @@
         }
     }
 
-    // Smart Waiting Logic
     let checkCount = 0;
     const waitData = setInterval(() => {
         checkCount++;
