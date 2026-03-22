@@ -3,54 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title id="pageTitle">Viral Anime Player | Loading...</title>
-    <meta name="description" content="Watch anime episodes free - Fast servers HD quality">
-    
+    <title id="pageTitle">Viral Anime Player</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ff0055">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        :root { --main: #ff0055; --bg: #0b0e14; --card: #1c2129; --accent: #00d4ff; }
+        :root { --main: #ff0055; --bg: #0b0e14; --card: #1c2129; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; overflow-x: hidden; }
-        
-        /* HEADER */
         header { padding: 12px 5%; background: #000; border-bottom: 2px solid var(--main); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        #displayTitle { font-size: 14px; font-weight: bold; color: var(--main); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 180px; }
+        #displayTitle { font-size: 14px; font-weight: bold; color: var(--main); max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .header-right { display: flex; gap: 8px; }
-        .head-btn { background: #222; color: white; border: 1px solid #444; border-radius: 8px; padding: 6px 12px; font-size: 12px; text-decoration: none; display: flex; align-items: center; gap: 5px; transition: 0.3s; }
-        .head-btn:hover { border-color: var(--main); color: var(--main); }
-        
-        /* SERVER SELECTOR */
+        .head-btn { background: #222; color: white; border: 1px solid #444; border-radius: 8px; padding: 6px 12px; font-size: 12px; text-decoration: none; }
         .server-container { display: flex; gap: 10px; padding: 15px 5%; justify-content: center; flex-wrap: wrap; background: #0f1218; }
-        .srv-btn { padding: 8px 16px; background: #1c2129; border: 1px solid #333; color: white; cursor: pointer; font-size: 12px; font-weight: 600; border-radius: 5px; transition: 0.3s; }
-        .srv-btn.active { background: var(--main); border-color: var(--main); box-shadow: 0 0 15px rgba(255,0,85,0.4); }
-        
-        /* VIDEO PLAYER */
+        .srv-btn { padding: 8px 16px; background: #1c2129; border: 1px solid #333; color: white; cursor: pointer; font-size: 12px; border-radius: 5px; }
+        .srv-btn.active { background: var(--main); border-color: var(--main); }
         .video-wrapper { width: 100%; max-width: 1000px; margin: 0 auto; position: relative; padding-top: 56.25%; background: #000; }
         iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        
-        /* CONTROLS */
         .controls-bar { display: flex; justify-content: center; gap: 15px; padding: 20px; background: #0f1218; border-bottom: 1px solid #222; }
-        .nav-btn { background: #1c2129; border: 1px solid #444; color: white; cursor: pointer; padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
-        .nav-btn:hover:not(:disabled) { border-color: var(--main); color: var(--main); }
-        .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-        
-        /* EPISODE GRID */
+        .nav-btn { background: #1c2129; border: 1px solid #444; color: white; cursor: pointer; padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: bold; }
+        .nav-btn:disabled { opacity: 0.3; }
         .episode-section { padding: 25px 5%; max-width: 1000px; margin: auto; }
-        .section-title { font-size: 15px; color: #fff; margin-bottom: 15px; padding-left: 10px; border-left: 3px solid var(--main); text-transform: uppercase; }
-        .ep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(65px, 1fr)); gap: 10px; }
-        .ep-link { padding: 12px 5px; background: #1c2129; border: 1px solid #333; color: white; text-decoration: none; text-align: center; border-radius: 8px; font-size: 12px; font-weight: 600; transition: 0.2s; }
-        .ep-link.active { background: var(--main); border-color: var(--main); box-shadow: 0 4px 12px rgba(255,0,85,0.3); }
-
-        footer { padding: 30px; text-align: center; font-size: 12px; color: #666; border-top: 1px solid #222; margin-top: 20px; }
-        
-        @media (max-width: 600px) {
-            .ep-grid { grid-template-columns: repeat(5, 1fr); }
-            .nav-btn span { display: none; } /* Mobile pe sirf icon dikhega buttons mein */
-        }
+        .section-title { font-size: 15px; color: #fff; margin-bottom: 15px; border-left: 3px solid var(--main); padding-left: 10px; }
+        .ep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px; }
+        .ep-link { padding: 10px; background: #1c2129; border: 1px solid #333; color: white; text-decoration: none; text-align: center; border-radius: 8px; font-size: 12px; }
+        .ep-link.active { background: var(--main); border-color: var(--main); }
+        footer { padding: 20px; text-align: center; font-size: 12px; color: #666; }
     </style>
 </head>
 <body>
@@ -58,8 +37,7 @@
 <header>
     <div id="displayTitle">Loading...</div>
     <div class="header-right">
-        <a href="#" id="detailsBtn" class="head-btn"><i class="fas fa-arrow-left"></i> <span>Back</span></a>
-        <button class="head-btn" onclick="shareEpisode()"><i class="fas fa-share"></i></button>
+        <a href="#" id="detailsBtn" class="head-btn">Back</a>
         <a href="index.html" class="head-btn"><i class="fas fa-home"></i></a>
     </div>
 </header>
@@ -67,24 +45,20 @@
 <div class="server-container" id="srvBox"></div>
 
 <div class="video-wrapper">
-    <iframe id="playerFrame" src="" allowfullscreen allow="autoplay; fullscreen *"></iframe>
+    <iframe id="playerFrame" src="" allowfullscreen></iframe>
 </div>
 
 <div class="controls-bar">
-    <button id="prevBtn" class="nav-btn" onclick="goEp(-1)">
-        <i class="fas fa-chevron-left"></i> <span>Prev</span>
-    </button>
-    <button id="nextBtn" class="nav-btn" onclick="goEp(1)">
-        <span>Next</span> <i class="fas fa-chevron-right"></i>
-    </button>
+    <button id="prevBtn" class="nav-btn" onclick="goEp(-1)">Prev</button>
+    <button id="nextBtn" class="nav-btn" onclick="goEp(1)">Next</button>
 </div>
 
 <div class="episode-section">
-    <div class="section-title">All Episodes</div>
+    <div class="section-title">Episodes</div>
     <div class="ep-grid" id="miniGrid"></div>
 </div>
 
-<footer>&copy; 2024-2026 <span style="color:var(--main)">Viral Anime Hub</span></footer>
+<footer>&copy; 2026 Viral Anime Hub</footer>
 
 <script src="js/main_data.js"></script>
 <script src="js/list.js"></script>
@@ -94,95 +68,78 @@
     const id = params.get('id');
     const sIdx = parseInt(params.get('s')) || 0;
     const epIdx = parseInt(params.get('ep')) || 0;
-    let currentAnime = null;
 
-    // 🔥 FIX: Loading all anime files correctly
-    if (typeof myAnimes !== 'undefined' && Array.isArray(myAnimes)) {
+    // 1. Sabhi Anime Files ko Force Load karna
+    if (typeof myAnimes !== 'undefined') {
         myAnimes.forEach(name => {
             let s = document.createElement('script');
             s.src = `js/animes/${name}.js`;
-            s.async = false; 
+            s.async = false;
             document.head.appendChild(s);
         });
     }
 
-    function loadSource(srvNum) {
-        if(!currentAnime || !currentAnime.seasons[sIdx]) return;
-        const season = currentAnime.seasons[sIdx];
-        
-        // Agar Server 2 exist karta hai toh wo lo, warna Server 1
+    function loadSource(srvNum, anime) {
+        const season = anime.seasons[sIdx];
         const videoUrl = (srvNum === 2 && season.server2 && season.server2[epIdx]) 
-            ? season.server2[epIdx] 
-            : season.server1[epIdx];
+                         ? season.server2[epIdx] 
+                         : season.server1[epIdx];
         
         if(videoUrl) {
             document.getElementById('playerFrame').src = videoUrl;
-            document.querySelectorAll('.srv-btn').forEach((b, i) => 
-                b.classList.toggle('active', i === (srvNum - 1))
-            );
+            document.querySelectorAll('.srv-btn').forEach((btn, i) => {
+                btn.classList.toggle('active', i === (srvNum - 1));
+            });
         }
     }
 
-    function setupPlayer() {
-        currentAnime = animeList.find(a => a.id === id);
-        if (!currentAnime || !currentAnime.seasons?.[sIdx]) return;
+    function renderPlayer() {
+        if (typeof animeList === 'undefined') return;
+        const anime = animeList.find(a => a.id === id);
 
-        const season = currentAnime.seasons[sIdx];
-        const epTitle = `${currentAnime.title} - S${sIdx+1} Ep${epIdx+1}`;
-        
-        document.getElementById('displayTitle').textContent = epTitle;
-        document.getElementById('pageTitle').textContent = "Watching " + epTitle;
-        document.getElementById('detailsBtn').href = `details.html?id=${id}`;
+        if (anime && anime.seasons[sIdx]) {
+            const season = anime.seasons[sIdx];
+            
+            // UI Updates
+            document.getElementById('displayTitle').innerText = `${anime.title} - S${sIdx+1} E${epIdx+1}`;
+            document.title = "Watching " + anime.title;
+            document.getElementById('detailsBtn').href = `details.html?id=${id}`;
 
-        // Server buttons logic
-        const srvBox = document.getElementById('srvBox');
-        srvBox.innerHTML = `<button class="srv-btn active" onclick="loadSource(1)">Server 1</button>`;
-        if (season.server2 && season.server2.length > 0) {
-            srvBox.innerHTML += `<button class="srv-btn" onclick="loadSource(2)">Server 2</button>`;
+            // Server Buttons
+            const srvBox = document.getElementById('srvBox');
+            srvBox.innerHTML = `<button class="srv-btn active" onclick="loadSource(1, ${JSON.stringify(anime).replace(/"/g, '&quot;')})">Server 1</button>`;
+            if (season.server2 && season.server2.length > 0) {
+                srvBox.innerHTML += `<button class="srv-btn" onclick="loadSource(2, ${JSON.stringify(anime).replace(/"/g, '&quot;')})">Server 2</button>`;
+            }
+
+            // Prev/Next Logic
+            document.getElementById('prevBtn').disabled = (epIdx === 0);
+            document.getElementById('nextBtn').disabled = (epIdx >= season.server1.length - 1);
+
+            // Mini Grid
+            const miniGrid = document.getElementById('miniGrid');
+            miniGrid.innerHTML = season.server1.map((_, i) => `
+                <a href="player.html?id=${id}&s=${sIdx}&ep=${i}" class="ep-link ${i === epIdx ? 'active' : ''}">${i+1}</a>
+            `).join('');
+
+            // Load Video
+            loadSource(1, anime);
         }
-
-        // Prev/Next buttons state
-        document.getElementById('prevBtn').disabled = epIdx === 0;
-        document.getElementById('nextBtn').disabled = epIdx >= (season.server1.length - 1);
-
-        // Episode selection grid
-        const miniGrid = document.getElementById('miniGrid');
-        miniGrid.innerHTML = season.server1.map((_, i) => `
-            <a href="player.html?id=${id}&s=${sIdx}&ep=${i}" 
-               class="ep-link ${i === epIdx ? 'active' : ''}">
-                ${i+1}
-            </a>
-        `).join('');
-
-        loadSource(1);
     }
+
+    // Data Load Hone Ka Wait
+    setTimeout(() => {
+        if (typeof animeList !== 'undefined') {
+            renderPlayer();
+        } else {
+            // Re-try after a bit
+            setTimeout(renderPlayer, 1000);
+        }
+    }, 500);
 
     function goEp(step) {
-        const nextEp = epIdx + step;
-        window.location.href = `player.html?id=${id}&s=${sIdx}&ep=${nextEp}`;
+        window.location.href = `player.html?id=${id}&s=${sIdx}&ep=${epIdx + step}`;
     }
-
-    function shareEpisode() {
-        const text = `Watching ${currentAnime.title} Episode ${epIdx+1} on Viral Anime!\n${window.location.href}`;
-        if (navigator.share) {
-            navigator.share({ title: 'Viral Anime', text: text });
-        } else {
-            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
-        }
-    }
-
-    // Wait for data to load
-    let attempts = 0;
-    const check = setInterval(() => {
-        attempts++;
-        if (typeof animeList !== 'undefined' && animeList.length > 0) {
-            setupPlayer();
-            clearInterval(check);
-        } else if (attempts > 50) {
-            document.getElementById('loader')?.innerHTML = "<h2>Episode Not Found!</h2>";
-            clearInterval(check);
-        }
-    }, 200);
 </script>
 
 </body>
