@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">Anime Details | Viral Anime Hub</title>
+    
+    <title id="pageTitle">Loading Anime... | Viral Anime Hub</title>
+    
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ff0055">
     
@@ -23,11 +25,15 @@
         .hero-card img { width: 150px; height: 210px; border-radius: 12px; margin-bottom: 15px; object-fit: cover; border: 2px solid #444; }
         .hero-card h1 { font-size: 24px; color: var(--main); margin-bottom: 10px; }
         
-        .meta-info { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
+        .meta-info { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
         .badge { background: rgba(255,0,85,0.15); border: 1px solid var(--main); padding: 4px 12px; border-radius: 15px; font-size: 11px; color: var(--main); }
+        
+        /* Genre Section */
+        .genre-box { font-size: 12px; color: #00d4ff; margin-bottom: 15px; font-weight: bold; text-transform: uppercase; }
+
         .desc { font-size: 13px; line-height: 1.5; color: #ccc; background: #161b22; padding: 12px; border-radius: 10px; text-align: left; border-left: 3px solid var(--main); }
 
-        /* 🔥 UPDATED SEASON NAVIGATION (Auto-Wrap to Next Line) */
+        /* 🔥 SEASON NAVIGATION (Auto-Wrap) */
         .season-nav-container { 
             position: sticky; 
             top: 68px; 
@@ -41,8 +47,8 @@
         .season-nav { 
             display: flex; 
             gap: 8px; 
-            flex-wrap: wrap; /* Isse buttons next line mein aa jayenge */
-            justify-content: flex-start; /* Buttons ko left se align rakhega */
+            flex-wrap: wrap; /* Dusri line mein aane ke liye */
+            justify-content: flex-start; 
         }
 
         .nav-btn { 
@@ -50,16 +56,16 @@
             border: 1px solid #444; 
             color: white; 
             padding: 6px 12px; 
-            border-radius: 12px; 
+            border-radius: 10px; 
             cursor: pointer; 
-            font-size: 12px; 
+            font-size: 11px; 
             font-weight: bold; 
             transition: 0.2s;
         }
-        .nav-btn:active { background: var(--main); transform: scale(0.95); }
+        .nav-btn:hover { border-color: var(--main); }
 
         /* Season Sections */
-        .season-section { padding-top: 110px; margin-top: -90px; } 
+        .season-section { padding-top: 115px; margin-top: -95px; } 
         .season-title { font-size: 18px; color: #fff; margin-bottom: 12px; padding-left: 10px; border-left: 4px solid var(--main); }
         
         .ep-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 40px; }
@@ -79,13 +85,16 @@
 </header>
 
 <div class="container" id="loader">
-    <h2 style="text-align: center; margin-top: 50px; opacity: 0.6;">Loading Seasons...</h2>
+    <h2 style="text-align: center; margin-top: 50px; opacity: 0.5;">Loading Anime Details...</h2>
 </div>
 
 <div class="container" id="mainContent" style="display: none;">
     <div class="hero-card">
         <img id="poster" src="" alt="Poster">
         <h1 id="title">Anime Title</h1>
+        
+        <div class="genre-box" id="genre">Loading Genres...</div>
+
         <div class="meta-info" id="meta"></div>
         <p class="desc" id="desc"></p>
     </div>
@@ -116,14 +125,11 @@
 
     function scrollToSeason(id) {
         const element = document.getElementById(id);
-        const headerOffset = 140; 
+        const headerOffset = 145; 
         const elementPosition = element.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth"
-        });
+        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
     }
 
     function setupPage() {
@@ -135,10 +141,20 @@
             document.getElementById('loader').style.display = 'none';
             document.getElementById('mainContent').style.display = 'block';
 
+            // 🔥 SEO UPDATE: Ye Google ke liye title change karega
+            document.getElementById('pageTitle').innerText = anime.title + " | Viral Anime Hub";
+
             document.getElementById('title').innerText = anime.title;
             document.getElementById('poster').src = anime.poster;
-            document.getElementById('desc').innerText = anime.description || "Description coming soon...";
-            document.getElementById('meta').innerHTML = `<span class="badge">${anime.year || '2024'}</span><span class="badge">⭐ ${anime.rating || '8.5'}</span>`;
+            document.getElementById('desc').innerText = anime.description || "Watch this amazing anime online for free.";
+            
+            // 🔥 GENRE UPDATE
+            document.getElementById('genre').innerText = (anime.genres && anime.genres.length > 0) ? anime.genres.join(' • ') : "Action • Adventure";
+
+            document.getElementById('meta').innerHTML = `
+                <span class="badge">Year: ${anime.year || '2024'}</span>
+                <span class="badge">Rating: ⭐ ${anime.rating || '8.5'}</span>
+            `;
 
             const nav = document.getElementById('seasonNav');
             const container = document.getElementById('seasonsContainer');
@@ -146,7 +162,7 @@
             nav.innerHTML = "";
             container.innerHTML = "";
 
-            if (anime.seasons && anime.seasons.length > 0) {
+            if (anime.seasons) {
                 anime.seasons.forEach((season, sIdx) => {
                     const sectionId = `season-section-${sIdx}`;
                     nav.innerHTML += `<button class="nav-btn" onclick="scrollToSeason('${sectionId}')">${season.name}</button>`;
@@ -157,7 +173,7 @@
                             <div class="ep-list">
                                 ${season.server1.map((url, eIdx) => `
                                     <a href="player.html?id=${id}&s=${sIdx}&ep=${eIdx}" class="ep-card">
-                                        <span><strong>Ep ${eIdx + 1}</strong> - HD</span>
+                                        <span><strong>Ep ${eIdx + 1}</strong></span>
                                         <span class="play-tag">WATCH</span>
                                     </a>
                                 `).join('')}
