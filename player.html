@@ -34,7 +34,7 @@
 <body>
 
 <header>
-    <div id="displayTitle" style="font-size: 13px; font-weight: 500;">Loading...</div>
+    <div id="displayTitle" style="font-size: 13px; font-weight: 500;">Loading Data...</div>
     <a href="index.html" class="back-btn">HOME</a>
 </header>
 
@@ -73,6 +73,7 @@
 <script src="js/list.js"></script>
 
 <script>
+    // Animes load karne ka system
     if (typeof myAnimes !== 'undefined' && myAnimes.length > 0) {
         myAnimes.forEach(name => {
             let s = document.createElement('script');
@@ -93,6 +94,8 @@
     function loadSource(srvNum) {
         if(!currentAnime) return;
         const season = currentAnime.seasons[sIdx];
+        if(!season) return;
+
         const videoUrl = (srvNum === 2 && season.server2 && season.server2.length > 0) 
             ? season.server2[epIdx] 
             : season.server1[epIdx];
@@ -104,10 +107,14 @@
     }
 
     function setupPlayer() {
-        currentAnime = animeList.find(a => a.id === id);
-
+        // Interval ne currentAnime dhoond liya hai, bas ab display karna hai
         if (currentAnime) {
             const season = currentAnime.seasons[sIdx];
+            if(!season) {
+                document.getElementById('displayTitle').innerText = "Season not found!";
+                return;
+            }
+
             document.getElementById('displayTitle').innerText = `${currentAnime.title} - S${sIdx+1} E${epIdx+1}`;
             document.getElementById('listBtn').href = `details.html?id=${id}`;
 
@@ -131,26 +138,32 @@
             `).join('');
 
             loadSource(1);
-        } else {
-            document.getElementById('displayTitle').innerText = "Anime not found!";
         }
     }
 
-    // Smart Waiting System
+    // 🔥 SMART WAITING SYSTEM (REFIXED)
     let attempts = 0;
     const checkInterval = setInterval(() => {
         attempts++;
-        if (typeof animeList !== 'undefined' && animeList.length > 0) {
+        
+        // Sirf ye nahi check kar rahe ki list khali hai ya nahi,
+        // Hum check kar rahe hain ki kya HAMARA anime load hua ya nahi.
+        if (typeof animeList !== 'undefined') {
+            currentAnime = animeList.find(a => a.id === id);
+        }
+
+        if (currentAnime) {
             setupPlayer();
             clearInterval(checkInterval);
-        } else if (attempts > 50) {
-            document.getElementById('displayTitle').innerText = "Failed to load video.";
+        } else if (attempts > 80) { // 8 seconds tak wait karega
+            document.getElementById('displayTitle').innerText = "Anime not found! Please check ID or Refresh.";
             clearInterval(checkInterval);
         }
     }, 100);
 
     function goEp(step) {
         const nextEp = epIdx + step;
+        // Navigation se pehle current URL parameters maintain rakhein
         window.location.href = `player.html?id=${id}&s=${sIdx}&ep=${nextEp}`;
     }
 </script>
