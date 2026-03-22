@@ -1,5 +1,5 @@
 animeList.push({
-    id: "kaguya-sama-love-is-war",
+    id: "kaguya-sama",
     title: "Kaguya-sama: Love Is War (Hindi Dub)",
     poster: "https://image.tmdb.org/t/p/w500/589777.jpg",
     year: "2019",
