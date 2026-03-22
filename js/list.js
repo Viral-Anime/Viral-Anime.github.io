@@ -5,5 +5,6 @@ const myAnimes = [
     "kaiju-no-8",
     "naruto-shippuden",
     "wind-breaker",
-    "solo-leveling"
+    "solo-leveling",
+    "haikyuu"
 ];
