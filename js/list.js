@@ -1,8 +1,8 @@
 const myAnimes = [
-    "wind-breaker",
+    "naruto",
     "kaguya-sama",
     "demon-slayer",
     "kaiju-no-8",
     "naruto-shippuden",
-    "naruto"
+    "wind-breker"
 ];
