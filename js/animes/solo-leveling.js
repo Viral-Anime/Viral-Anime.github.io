@@ -6,7 +6,7 @@ animeList.push(
         year: "2024",
         duration: "24m",
         rating: "8.7",
-        genres: "Action, Adventure, Fantasy",
+        genres: ["Action, Adventure, Fantasy"],
         cast: "Taito Ban, Reina Ueda",
         description: "In a world where hunters must battle deadly monsters to protect mankind, Sung Jinwoo, a notoriously weak hunter, finds himself in a struggle for survival.",
         seasons: [
