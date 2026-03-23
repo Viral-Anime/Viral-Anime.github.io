@@ -1,5 +1,5 @@
 animeList.push({
-        "id": "kaguya-sama-love-is-war",
+        "id": "kaguya-sama",
     "title": "Kaguya-sama: Love Is War",
     "poster": "https://image.tmdb.org/t/p/w92/placeholder.jpg",
     "year": "2019",
