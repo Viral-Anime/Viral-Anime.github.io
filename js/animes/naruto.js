@@ -5,7 +5,7 @@ animeList.push({
     "year": "2002",
     "duration": "23m",
     "rating": "8.4",
-    "genres": ["Action, Adventure, Fantasy"],
+    "genres": [Action, Adventure, Fantasy],
     "description": "Naruto Uzumaki, a mischievous adolescent ninja, struggles as he searches for recognition and dreams of becoming the Hokage, the village's leader and strongest ninja.",
     "seasons": [
         {
