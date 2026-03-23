@@ -1,17 +1,16 @@
 animeList.push({
-    id: "kaiju-no-8",
-    title: "Kaiju No. 8 (Hindi Dub)",
-    poster: "https://image.tmdb.org/t/p/w500/843180.jpg",
-    year: "2024",
-    duration: "24m",
-    rating: "8.4",
-    genres: "Action, Sci-Fi, Military",
-    cast: "Masaya Fukunishi, Wataru Kato",
-    description: "In a world plagued by creatures known as Kaiju, Kafka Hibino aspires to enlist in the Japan Defense Force. After a small Kaiju enters his body, he gains the ability to transform into one himself.",
-    seasons: [
+        "id": "kaiju-no-8",
+    "title": "Kaiju No. 8",
+    "poster": "https://image.tmdb.org/t/p/w92/placeholder.jpg",
+    "year": "2024",
+    "duration": "24m",
+    "rating": "8.4",
+    "genres": "Action, Sci-Fi, Animation",
+    "description": "In a world plagued by creatures known as Kaiju, Kafka Hibino aspires to enlist in the Japan Defense Force to defeat them. After a small Kaiju enters his body, he gains the ability to transform into one himself.",
+    "seasons": [
         {
-            name: "Season 1",
-            server1: [
+            "name": "Season 1",
+            "server1": [
                 "https://animehindiworld.seekplays.com/#bwn81",
                 "https://animehindiworld.seekplays.com/#xhcop",
                 "https://animehindiworld.seekplays.com/#spjfz",
@@ -25,11 +24,11 @@ animeList.push({
                 "https://animehindiworld.seekplays.com/#spjfv",
                 "https://animehindiworld.seekplays.com/#efz3i"
             ],
-            server2: []
+            "server2": []
         },
         {
-            name: "Season 2",
-            server1: [
+            "name": "Season 2",
+            "server1": [
                 "https://animehindiworld.seekplays.com/#9emxi",
                 "https://animehindiworld.seekplays.com/#vdxaw",
                 "https://animehindiworld.seekplays.com/#pnvlu",
@@ -40,9 +39,9 @@ animeList.push({
                 "https://animehindiworld.seekplays.com/#mzqc6",
                 "https://animehindiworld.seekplays.com/#5aun1",
                 "https://animehindiworld.seekplays.com/#iu91h",
-                "https://animehindiworld.seekplays.com/#aogrp"
+                "https://animehindiworld.seekplays.com/#aogr3"
             ],
-            server2: []
+            "server2": []
         }
     ]
 });
