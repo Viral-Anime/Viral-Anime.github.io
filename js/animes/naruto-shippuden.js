@@ -5,7 +5,7 @@ animeList.push({
     "year": "2007",
     "duration": "24m",
     "rating": "8.7",
-    "genres": "Action, Adventure, Fantasy",
+    "genres": ["Action, Adventure, Fantasy"],
     "description": "Naruto Uzumaki is back! After training for two and a half years with Jiraiya, he returns to the Hidden Leaf Village to continue his quest to become Hokage and save his friend Sasuke.",
     "seasons": [
         {
