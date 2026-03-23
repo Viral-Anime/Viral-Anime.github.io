@@ -5,7 +5,7 @@ animeList.push({
     year: "2024",
     duration: "24m",
     rating: "7.72",
-    genres: ["Action, Anime, School"],
+    "genres": ["Action, Anime, School"],
     cast: "Koki Uchiyama, Nobunaga Shimazaki",
     description: "Haruka Sakura wants nothing to do with weaklings—he's only interested in the strongest of the strong. He's just started at Furin High School...",
     seasons: [
