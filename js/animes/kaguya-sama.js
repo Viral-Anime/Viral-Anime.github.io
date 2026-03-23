@@ -5,7 +5,7 @@ animeList.push({
     "year": "2019",
     "duration": "24m",
     "rating": "8.5",
-    "genres": "Comedy, Romance, Psychological",
+    "genres": ["Comedy, Romance, Psychological"],
     "description": "Two genius students, Miyuki Shirogane and Kaguya Shinomiya, are in love with each other but are too proud to confess it first, leading to a series of psychological battles to make the other person confess.",
     "seasons": [
         {
