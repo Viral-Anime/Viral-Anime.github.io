@@ -5,7 +5,7 @@ animeList.push({
     "year": "2019",
     "duration": "24m",
     "rating": "8.7",
-    "genres": "Action, Adventure, Fantasy",
+    "genres": ["Action, Adventure, Fantasy"],
     "description": "After his family is brutally murdered and his sister turned into a demon, Tanjiro Kamado sets out to become a demon slayer to find a cure and get revenge.",
     "seasons": [
         {
