@@ -5,7 +5,7 @@ animeList.push({
     "year": "2014",
     "duration": "24m",
     "rating": "8.7",
-    "genres": "Animation, Comedy, Drama, Sport",
+    "genres": ["Animation, Comedy, Drama, Sport"],
     "description": "Inspired after watching a volleyball ace nicknamed 'Little Giant' in action, small-statured Shouyou Hinata revives the volleyball club at his middle school. The newly-formed team even makes it to a tournament; however, their first match turns out to be their last when they are brutally squashed by the 'King of the Court,' Tobio Kageyama.",
     "seasons": [
         {
