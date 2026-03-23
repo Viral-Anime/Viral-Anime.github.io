@@ -5,7 +5,7 @@ animeList.push({
     "year": "2024",
     "duration": "24m",
     "rating": "8.4",
-    "genres": "Action, Sci-Fi, Animation",
+    "genres": ["Action, Sci-Fi, Animation"],
     "description": "In a world plagued by creatures known as Kaiju, Kafka Hibino aspires to enlist in the Japan Defense Force to defeat them. After a small Kaiju enters his body, he gains the ability to transform into one himself.",
     "seasons": [
         {
