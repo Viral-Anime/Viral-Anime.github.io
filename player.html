@@ -5,77 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pageTitle">Viral Anime Player</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+
     <style>
         :root { --main: #ff0055; --bg: #0b0e14; --card: #1c2129; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; overflow-x: hidden; }
-        
+
         header { padding: 15px 5%; background: #000; border-bottom: 2px solid var(--main); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         #displayTitle { font-size: 14px; font-weight: bold; color: var(--main); max-width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .home-icon { color: white; font-size: 20px; text-decoration: none; }
 
-        /* SERVER SELECTOR */
         .server-container { display: flex; gap: 10px; padding: 15px 5%; justify-content: center; flex-wrap: wrap; background: #0f1218; }
         .srv-btn { padding: 8px 16px; background: #1c2129; border: 1px solid #333; color: white; cursor: pointer; font-size: 12px; border-radius: 5px; transition: 0.3s; }
         .srv-btn.active { background: var(--main); border-color: var(--main); box-shadow: 0 0 10px rgba(255,0,85,0.4); }
 
-        /* VIDEO PLAYER */
         .video-wrapper { width: 100%; max-width: 1000px; margin: 0 auto; position: relative; padding-top: 56.25%; background: #000; }
         iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        /* 🔥 PREMIUM BIG CONTROLS */
-        .controls-bar { 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            gap: 12px; 
-            padding: 25px 15px; 
-            background: #0f1218; 
-            border-bottom: 1px solid #222; 
-        }
-        
-        .nav-btn { 
-            background: #1c2129; 
-            border: 1px solid #444; 
-            color: white; 
-            cursor: pointer; 
-            padding: 15px 0; 
-            border-radius: 12px; 
-            font-size: 14px; 
-            font-weight: bold; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 5px;
-            transition: 0.3s;
-            text-decoration: none;
-            flex: 1; /* Equal width for all 3 buttons */
-            max-width: 120px;
-        }
-
+        .controls-bar { display: flex; justify-content: center; align-items: center; gap: 12px; padding: 25px 15px; background: #0f1218; border-bottom: 1px solid #222; }
+        .nav-btn { background: #1c2129; border: 1px solid #444; color: white; cursor: pointer; padding: 15px 0; border-radius: 12px; font-size: 14px; font-weight: bold; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; transition: 0.3s; text-decoration: none; flex: 1; max-width: 120px; }
         .nav-btn i { font-size: 18px; }
         .nav-btn:hover:not(:disabled) { border-color: var(--main); color: var(--main); background: #252b35; transform: translateY(-2px); }
         .nav-btn:active { transform: scale(0.95); }
         .nav-btn:disabled { opacity: 0.2; cursor: not-allowed; transform: none; }
-        
-        /* Specific List Button Style */
         .list-btn { background: rgba(255, 255, 255, 0.05); border-color: #555; }
 
-        /* EPISODE GRID */
         .episode-section { padding: 25px 5%; max-width: 1000px; margin: auto; }
         .section-title { font-size: 15px; color: #fff; margin-bottom: 15px; border-left: 3px solid var(--main); padding-left: 10px; text-transform: uppercase; }
         .ep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px; }
         .ep-link { padding: 12px; background: #1c2129; border: 1px solid #333; color: white; text-decoration: none; text-align: center; border-radius: 8px; font-size: 13px; font-weight: bold; }
         .ep-link.active { background: var(--main); border-color: var(--main); box-shadow: 0 4px 10px rgba(255,0,85,0.3); }
-
         footer { padding: 30px; text-align: center; font-size: 12px; color: #666; }
-        
-        @media (max-width: 480px) {
-            .nav-btn { font-size: 12px; padding: 12px 0; }
-            .nav-btn i { font-size: 16px; }
-        }
+
+        @media (max-width: 480px) { .nav-btn { font-size: 12px; padding: 12px 0; } .nav-btn i { font-size: 16px; } }
     </style>
 </head>
 <body>
@@ -96,12 +58,10 @@
         <i class="fas fa-backward"></i>
         <span>Prev</span>
     </button>
-    
     <a id="listBtn" href="#" class="nav-btn list-btn">
         <i class="fas fa-list-ul"></i>
         <span>List</span>
     </a>
-    
     <button id="nextBtn" class="nav-btn" onclick="goEp(1)">
         <i class="fas fa-forward"></i>
         <span>Next</span>
@@ -124,7 +84,6 @@
     const sIdx = parseInt(params.get('s')) || 0;
     const epIdx = parseInt(params.get('ep')) || 0;
 
-    // Load Scripts
     if (typeof myAnimes !== 'undefined') {
         myAnimes.forEach(name => {
             let s = document.createElement('script');
@@ -134,13 +93,32 @@
         });
     }
 
+    // 🔥 AUTO-NEXT LISTENER
+    window.addEventListener('message', function(event) {
+        if (event.data === 'videoEnded') {
+            console.log("Auto-Next Triggered!");
+            const anime = animeList.find(a => a.id === id);
+            const season = anime.seasons[sIdx];
+            // Check if next episode exists before going
+            if (epIdx < season.server1.length - 1) {
+                goEp(1);
+            }
+        }
+    });
+
     function loadSource(srvNum, anime) {
         const season = anime.seasons[sIdx];
-        const videoUrl = (srvNum === 2 && season.server2 && season.server2[epIdx]) 
+        let videoUrl = (srvNum === 2 && season.server2 && season.server2[epIdx]) 
                          ? season.server2[epIdx] 
                          : season.server1[epIdx];
-        
+
         if(videoUrl) {
+            const isDirect = videoUrl.includes('pixeldrain') || videoUrl.includes('.mp4') || videoUrl.includes('.mkv') || videoUrl.includes('api/file');
+            if (isDirect) {
+                const titleParam = encodeURIComponent(anime.title);
+                const epParam = encodeURIComponent(`S${sIdx+1} E${epIdx+1}`);
+                videoUrl = `v-player.html?url=${encodeURIComponent(videoUrl)}&title=${titleParam}&ep=${epParam}`;
+            }
             document.getElementById('playerFrame').src = videoUrl;
             document.querySelectorAll('.srv-btn').forEach((btn, i) => {
                 btn.classList.toggle('active', i === (srvNum - 1));
@@ -152,38 +130,26 @@
         const anime = animeList.find(a => a.id === id);
         if (anime && anime.seasons[sIdx]) {
             const season = anime.seasons[sIdx];
-            
             document.getElementById('displayTitle').innerText = `${anime.title} - S${sIdx+1} E${epIdx+1}`;
             document.getElementById('listBtn').href = `details.html?id=${id}`;
-
-            // Servers
             const srvBox = document.getElementById('srvBox');
-            srvBox.innerHTML = `<button class="srv-btn active" onclick="loadSource(1, ${JSON.stringify(anime).replace(/"/g, '&quot;')})">Server 1</button>`;
-            if (season.server2 && season.server2.length > 0) {
-                srvBox.innerHTML += `<button class="srv-btn" onclick="loadSource(2, ${JSON.stringify(anime).replace(/"/g, '&quot;')})">Server 2</button>`;
+            srvBox.innerHTML = `<button class="srv-btn active" onclick="loadSource(1, animeList.find(a => a.id === '${id}'))">Server 1</button>`;
+            if (season.server2 && season.server2.length > 0 && season.server2[epIdx]) {
+                srvBox.innerHTML += `<button class="srv-btn" onclick="loadSource(2, animeList.find(a => a.id === '${id}'))">Server 2</button>`;
             }
-
-            // Buttons State
             document.getElementById('prevBtn').disabled = (epIdx === 0);
             document.getElementById('nextBtn').disabled = (epIdx >= season.server1.length - 1);
-
-            // Mini Grid
             const miniGrid = document.getElementById('miniGrid');
             miniGrid.innerHTML = season.server1.map((_, i) => `
                 <a href="player.html?id=${id}&s=${sIdx}&ep=${i}" class="ep-link ${i === epIdx ? 'active' : ''}">${i+1}</a>
             `).join('');
-
             loadSource(1, anime);
         }
     }
 
-    // Wait for data
     setTimeout(() => {
-        if (typeof animeList !== 'undefined' && animeList.length > 0) {
-            setupPlayer();
-        } else {
-            setTimeout(setupPlayer, 1200);
-        }
+        if (typeof animeList !== 'undefined' && animeList.length > 0) { setupPlayer(); } 
+        else { setTimeout(setupPlayer, 1200); }
     }, 600);
 
     function goEp(step) {
@@ -196,7 +162,6 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-MJBWSZNBEM');
 </script>
 
