@@ -29,7 +29,7 @@ animeList.push({
 "https://gofile.io/d/bSK6SJ",
 "https://gofile.io/d/eV2RTI",
 "https://gofile.io/d/R86NNe",
-'https://gofile.io/d/9dj4UN",
+"https://gofile.io/d/9dj4UN",
 "https://gofile.io/d/HDpyGh",
 "https://gofile.io/d/sB63dH",
 "https://gofile.io/d/EbgBdJ",
