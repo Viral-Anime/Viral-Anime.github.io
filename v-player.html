@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="tabTitle">Stream Player | Viral Anime</title>
+
+    <link rel="stylesheet" href="https://cdn.vidstack.io/player/theme.css" />
+    <link rel="stylesheet" href="https://cdn.vidstack.io/player/video.css" />
+    <script type="module" src="https://cdn.vidstack.io/player"></script>
+
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; background: #000; overflow: hidden; }
+        media-player { width: 100vw; height: 100vh; --media-brand: #ff0055; }
+        .video-title-overlay {
+            position: absolute; top: 20px; left: 20px; z-index: 10; color: white;
+            font-family: 'Segoe UI', sans-serif; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            pointer-events: none; opacity: 1; transition: opacity 0.5s ease;
+        }
+        media-player[data-controls-hidden] .video-title-overlay { opacity: 0; }
+        .video-title-overlay h2 { margin: 0; font-size: 20px; color: var(--media-brand); font-weight: bold; }
+        .video-title-overlay p { margin: 5px 0 0; font-size: 14px; opacity: 0.9; color: #eee; }
+    </style>
+</head>
+<body>
+
+    <media-player id="vPlayer" playsinline crossorigin key-shortcuts="all" autoplay>
+        <media-provider></media-provider>
+        
+        <div class="video-title-overlay">
+            <h2 id="animeName">Loading...</h2>
+            <p id="epName"></p>
+        </div>
+
+        <media-video-layout></media-video-layout>
+    </media-player>
+
+    <script type="module">
+        const params = new URLSearchParams(window.location.search);
+        const videoSource = params.get('url');
+        const title = decodeURIComponent(params.get('title') || "Anime Stream");
+        const ep = decodeURIComponent(params.get('ep') || "");
+
+        const player = document.querySelector('#vPlayer');
+        
+        document.getElementById('animeName').innerText = title;
+        document.getElementById('epName').innerText = ep;
+        document.getElementById('tabTitle').innerText = `${title} - ${ep} | Viral Anime`;
+
+        if (videoSource) {
+            player.src = videoSource;
+        }
+
+        // 🔥 Naya Code: Jab video khatam ho jaye (Vidstack Way)
+        player.addEventListener('ended', () => {
+            console.log("Video ended, sending message to parent...");
+            window.parent.postMessage('videoEnded', '*');
+        });
+    </script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MJBWSZNBEM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-MJBWSZNBEM');
+    </script>
+</body>
+</html>
