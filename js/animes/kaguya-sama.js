@@ -1,11 +1,11 @@
-animeList.push({
-        "id": "kaguya-sama",
+AnimeList.push({
+    "id": "kaguya-sama",
     "title": "Kaguya-sama: Love Is War",
-    "poster": "https://image.tmdb.org/t/p/w92/placeholder.jpg",
+    "poster": "https://image.tmdb.org/t/p/w500/56v2KjI5h90vS4SJH1uAg2rQvJo.jpg",
     "year": "2019",
     "duration": "24m",
     "rating": "8.5",
-    "genres": ["Comedy, Romance, Psychological"],
+    "genres": ["Comedy", "Romance", "Psychological"],
     "description": "Two genius students, Miyuki Shirogane and Kaguya Shinomiya, are in love with each other but are too proud to confess it first, leading to a series of psychological battles to make the other person confess.",
     "seasons": [
         {
@@ -25,18 +25,19 @@ animeList.push({
                 "https://animehindiworld.seekplays.com/#kstm6"
             ],
             "server2": [
-"https://gofile.io/d/iXbDdl",
-"https://gofile.io/d/bSK6SJ",
-"https://gofile.io/d/eV2RTI",
-"https://gofile.io/d/R86NNe",
-"https://gofile.io/d/9dj4UN",
-"https://gofile.io/d/HDpyGh",
-"https://gofile.io/d/sB63dH",
-"https://gofile.io/d/EbgBdJ",
-"https://gofile.io/d/DeFIPk",
-"https://gofile.io/d/HydSt8",
-"https://gofile.io/d/OLnms7",
-"https://gofile.io/d/lWE3bs"]
+                "https://gofile.io/d/iXbDdl",
+                "https://gofile.io/d/bSK6SJ",
+                "https://gofile.io/d/eV2RTI",
+                "https://gofile.io/d/R86NNe",
+                "https://gofile.io/d/9dj4UN",
+                "https://gofile.io/d/HDpyGh",
+                "https://gofile.io/d/sB63dH",
+                "https://gofile.io/d/EbgBdJ",
+                "https://gofile.io/d/DeFIPk",
+                "https://gofile.io/d/HydSt8",
+                "https://gofile.io/d/OLnms7",
+                "https://gofile.io/d/lWE3bs"
+            ]
         }
     ]
 });
