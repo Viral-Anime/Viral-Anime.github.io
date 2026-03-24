@@ -24,7 +24,19 @@ animeList.push({
                 "https://animehindiworld.seekplays.com/#iu9v6",
                 "https://animehindiworld.seekplays.com/#kstm6"
             ],
-            "server2": []
+            "server2": [
+https://gofile.io/d/iXbDdl,
+https://gofile.io/d/bSK6SJ,
+https://gofile.io/d/eV2RTI,
+https://gofile.io/d/R86NNe,
+https://gofile.io/d/9dj4UN,
+https://gofile.io/d/HDpyGh,
+https://gofile.io/d/sB63dH,
+https://gofile.io/d/EbgBdJ,
+https://gofile.io/d/DeFIPk,
+https://gofile.io/d/HydSt8,
+https://gofile.io/d/OLnms7,
+https://gofile.io/d/lWE3bs]
         }
     ]
 });
