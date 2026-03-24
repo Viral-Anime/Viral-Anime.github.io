@@ -1,4 +1,4 @@
-AnimeList.push({
+animeList.push({
     "id": "kaguya-sama",
     "title": "Kaguya-sama: Love Is War",
     "poster": "https://image.tmdb.org/t/p/w500/56v2KjI5h90vS4SJH1uAg2rQvJo.jpg",
