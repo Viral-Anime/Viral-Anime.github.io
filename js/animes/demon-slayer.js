@@ -1,7 +1,7 @@
 animeList.push({
         "id": "demon-slayer",
     "title": "Demon Slayer: Kimetsu no Yaiba",
-    "poster": "https://image.tmdb.org/t/p/w92/placeholder.jpg",
+    "poster": "https://image.tmdb.org/t/p/w500/ctR9Kv2MNhuIjgb96wARbT1BNts.jpg",
     "year": "2019",
     "duration": "24m",
     "rating": "8.7",
