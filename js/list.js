@@ -1,4 +1,5 @@
 const myAnimes = [
+    "mushoku-tensei",
     "naruto",
     "kaguya-sama",
     "demon-slayer",
