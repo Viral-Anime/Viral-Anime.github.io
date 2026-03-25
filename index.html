@@ -20,42 +20,56 @@
         :root { --main: #ff0055; --bg: #0b0e14; --card: #1c2129; --text: #fff; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; }
 
-        /* 2-Line Header Setup */
-        header { background: #000; border-bottom: 2px solid var(--main); position: sticky; top:0; z-index:99999; padding: 10px 5%; }
-        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .logo { font-size: 20px; font-weight: bold; color: var(--main); text-transform: uppercase; text-decoration: none; }
+        /* Updated Stylish Header */
+        header { background: #000; border-bottom: 2px solid var(--main); position: sticky; top:0; z-index:99999; padding: 12px 5%; }
         
-        .share-btn { background: var(--main); color: white; border: none; border-radius: 8px; padding: 6px 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 13px; transition: 0.3s; }
+        .header-top { display: grid; grid-template-columns: 50px 1fr 50px; align-items: center; margin-bottom: 15px; }
+        .logo { font-size: 24px; font-weight: 900; color: var(--main); text-transform: uppercase; text-decoration: none; text-align: center; letter-spacing: 1px; }
         
-        .search-container { width: 100%; }
-        .search-box { width: 100%; padding: 10px 15px; border-radius: 8px; border: 1px solid #444; background: #222; color: #fff; outline: none; box-sizing: border-box; }
-        .search-box:focus { border-color: var(--main); }
-
-        .container { padding: 15px 3%; }
+        .share-btn { background: var(--main); color: white; border: none; border-radius: 50%; width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: 0.3s; justify-self: end; }
         
-        /* 4 Cards Grid Layout (Mobile) */
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+        .search-container { width: 100%; padding: 0 5px; }
+        .search-box { 
+            width: 100%; 
+            padding: 12px 20px; 
+            border-radius: 25px; 
+            border: 1px solid #333; 
+            background: #1a1e24; 
+            color: #fff; 
+            outline: none; 
+            box-sizing: border-box; 
+            font-size: 14px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+            transition: 0.3s;
+        }
+        .search-box:focus { border-color: var(--main); background: #222; box-shadow: 0 0 10px rgba(255, 0, 85, 0.2); }
 
-        .card { background: var(--card); border-radius: 6px; overflow: hidden; text-decoration: none; color: inherit; border: 1px solid #333; transition: 0.3s; position: relative; display: block; }
-        .card img { width: 100%; height: 130px; object-fit: cover; display: block; }
+        .container { padding: 20px 3%; }
+        
+        /* 3 Cards Grid Layout (Mobile) */
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 
-        .card-info { padding: 6px; text-align: center; }
-        .card h3 { font-size: 9px; margin: 0; height: 24px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.2; }
-        .card-year { margin-top: 3px; font-size: 9px; color: var(--main); font-weight: bold; }
+        .card { background: var(--card); border-radius: 8px; overflow: hidden; text-decoration: none; color: inherit; border: 1px solid #333; transition: 0.3s; position: relative; display: block; }
+        .card img { width: 100%; height: 160px; object-fit: cover; display: block; }
 
-        .views-badge { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.8); color: #fff; padding: 2px 5px; border-radius: 3px; font-size: 8px; z-index: 1; }
+        .card-info { padding: 8px; text-align: center; }
+        .card h3 { font-size: 11px; margin: 0; height: 30px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.3; color: #fff; }
+        .card-year { margin-top: 4px; font-size: 10px; color: var(--main); font-weight: bold; }
+
+        .views-badge { position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.8); color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 9px; z-index: 1; border: 1px solid rgba(255,255,255,0.1); }
 
         /* Stylish Pagination */
         .pagination { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 30px; padding-bottom: 20px; }
-        .page-btn { padding: 8px 14px; background: #1c2129; border: 1px solid #444; color: white; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.3s; }
-        .page-btn:active { background: var(--main); }
+        .page-btn { padding: 10px 16px; background: #1c2129; border: 1px solid #444; color: white; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: bold; transition: 0.3s; }
+        .page-btn:active { background: var(--main); transform: scale(0.95); }
         .page-btn:disabled { opacity: 0.2; cursor: not-allowed; }
-        .page-num { padding: 8px 14px; border-radius: 6px; background: var(--main); color: white; font-weight: bold; font-size: 13px; }
+        .page-num { padding: 10px 16px; border-radius: 8px; background: var(--main); color: white; font-weight: bold; font-size: 14px; box-shadow: 0 4px 10px rgba(255, 0, 85, 0.3); }
 
         @media (min-width: 768px) {
             .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
             .card img { height: 230px; }
             .card h3 { font-size: 13px; height: 35px; }
+            .logo { font-size: 30px; }
         }
     </style>
 </head>
@@ -63,18 +77,18 @@
 
     <header>
         <div class="header-top">
-            <a href="index.html" class="logo">Viral Anime</a>
-            <button class="share-btn" onclick="shareSite()">
-                <i class="fa-solid fa-paper-plane"></i> SHARE
+            <div style="width:38px;"></div> <a href="index.html" class="logo">Viral Anime</a>
+            <button class="share-btn" onclick="shareSite()" title="Share">
+                <i class="fa-solid fa-paper-plane"></i>
             </button>
         </div>
         <div class="search-container">
-            <input type="text" class="search-box" placeholder="Search..." id="search" onkeyup="search()">
+            <input type="text" class="search-box" placeholder="Search your favorite anime..." id="search" onkeyup="search()">
         </div>
     </header>
 
     <div class="container">
-        <h2 style="font-size: 16px; border-left: 3px solid var(--main); padding-left: 10px; margin-bottom: 20px;">LATEST UPDATES</h2>
+        <h2 style="font-size: 16px; border-left: 3px solid var(--main); padding-left: 10px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">Latest Updates</h2>
         <div class="grid" id="animeGrid"></div>
 
         <div class="pagination" id="paginationBox">
@@ -84,7 +98,7 @@
         </div>
     </div>
 
-    <footer style="margin-top: 40px; padding: 20px 0; text-align: center; border-top: 1px solid #333; background: #000; color: #8b949e; font-size: 14px;">
+    <footer style="margin-top: 40px; padding: 25px 0; text-align: center; border-top: 1px solid #333; background: #000; color: #8b949e; font-size: 14px;">
         <p style="margin: 0;">&copy; 2024 - 2026 <span style="color: #ff0055; font-weight: bold;">Viral Anime</span>. All Rights Reserved.</p>
     </footer>
 
@@ -136,7 +150,7 @@
         function updatePagination() {
             const totalPages = Math.ceil(currentList.length / itemsPerPage);
             const pageNumbers = document.getElementById('pageNumbers');
-            pageNumbers.innerHTML = `<span class="page-num">${currentPage}</span>`; // Active page display
+            pageNumbers.innerHTML = `<span class="page-num">${currentPage}</span>`;
 
             document.getElementById('prevPage').disabled = (currentPage === 1);
             document.getElementById('nextPage').disabled = (currentPage >= totalPages);
@@ -165,7 +179,6 @@
             }
         }
 
-        // Original Smart Loader Logic
         let checkCount = 0;
         const totalExpected = (typeof myAnimes !== 'undefined') ? myAnimes.length : 0;
         const checkData = setInterval(() => {
