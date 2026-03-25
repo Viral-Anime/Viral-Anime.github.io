@@ -25,22 +25,25 @@
         
         .header-top { display: grid; grid-template-columns: 50px 1fr 50px; align-items: center; margin-bottom: 10px; }
         
-        /* Logo Size increased to 2 lines effect */
+        /* Logo with Gradient Effect */
         .logo { 
-            font-size: 42px; /* Pehle se bada */
-            line-height: 0.9; /* Lines ko pass lane ke liye */
+            font-size: 42px; 
+            line-height: 0.9; 
             font-weight: 900; 
-            color: var(--main); 
             text-transform: uppercase; 
             text-decoration: none; 
             text-align: center; 
             letter-spacing: 1px;
             display: block;
+            background: linear-gradient(180deg, #ffffff 0%, #ff0055 70%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
         .share-btn { background: var(--main); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; transition: 0.3s; justify-self: end; }
         
-        .search-container { width: 100%; padding: 0 2px; margin-top: 15px; /* Search ko niche kiya */ }
+        /* Search Container shifted down */
+        .search-container { width: 100%; padding: 0 2px; margin-top: 25px; /* Ek line aur niche kiya */ }
         .search-box { 
             width: 100%; 
             padding: 14px 22px; 
