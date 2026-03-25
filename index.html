@@ -23,24 +23,24 @@
         /* Stylish Header with Large Logo */
         header { background: #000; border-bottom: 2px solid var(--main); position: sticky; top:0; z-index:99999; padding: 15px 5%; }
         
-        .header-top { display: grid; grid-template-columns: 50px 1fr 50px; align-items: center; margin-bottom: 20px; }
+        .header-top { display: grid; grid-template-columns: 50px 1fr 50px; align-items: center; margin-bottom: 10px; }
         
         /* Logo Size increased to 2 lines effect */
         .logo { 
-            font-size: 38px; 
-            line-height: 1;
+            font-size: 42px; /* Pehle se bada */
+            line-height: 0.9; /* Lines ko pass lane ke liye */
             font-weight: 900; 
             color: var(--main); 
             text-transform: uppercase; 
             text-decoration: none; 
             text-align: center; 
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             display: block;
         }
         
         .share-btn { background: var(--main); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; transition: 0.3s; justify-self: end; }
         
-        .search-container { width: 100%; padding: 0 2px; }
+        .search-container { width: 100%; padding: 0 2px; margin-top: 15px; /* Search ko niche kiya */ }
         .search-box { 
             width: 100%; 
             padding: 14px 22px; 
@@ -81,7 +81,7 @@
             .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
             .card img { height: 230px; }
             .card h3 { font-size: 13px; height: 35px; }
-            .logo { font-size: 45px; }
+            .logo { font-size: 50px; }
         }
     </style>
 </head>
