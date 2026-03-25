@@ -1,7 +1,7 @@
 animeList.push({
         "id": "kaiju-no-8",
     "title": "Kaiju No. 8",
-    "poster": "https://image.tmdb.org/t/p/w92/placeholder.jpg",
+    "poster": "https://image.tmdb.org/t/p/w500/q2ihpco7zy6WEBMicHUgr1SqVvP.jpg",
     "year": "2024",
     "duration": "24m",
     "rating": "8.4",
