@@ -1,7 +1,7 @@
 animeList.push({
         "id": "naruto-shippuden",
     "title": "Naruto Shippuden",
-    "poster": "https://image.tmdb.org/t/p/w92/placeholder.jpg",
+    "poster": "https://image.tmdb.org/t/p/w500/rXD6lcg6zhRE8NDRVlQPNkViC3s.jpg",
     "year": "2007",
     "duration": "24m",
     "rating": "8.7",
