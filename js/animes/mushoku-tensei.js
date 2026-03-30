@@ -1,7 +1,7 @@
 animeList.push({
     id: "mushoku-tensei",
     title: "Mushoku Tensei: Jobless Reincarnation (Hindi Dubbed Series)",
-    poster: "https://image.tmdb.org/t/p/w500/v9YByS087uS9v7UInX8C6pYf97p.jpg",
+    poster: "https://image.tmdb.org/t/p/w500/pAlsYh0zv4vkkD3tjfpCqh3BMXC.jpg",
     year: "2021",
     duration: "24m",
     rating: "8.4",
